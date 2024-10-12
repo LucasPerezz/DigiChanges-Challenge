@@ -18,11 +18,11 @@ const syncPlanetsDataToDB = () => __awaiter(void 0, void 0, void 0, function* ()
     try {
         let page = 1;
         let response = yield fetch(`https://swapi.dev/api/planets/?page=${page}&format=json`);
-        let data = yield response.json();
         if (!response.ok) {
             throw new Error("Error fetching planets data");
         }
-        while (data.next !== null) {
+        while (response.ok) {
+            const data = yield response.json();
             const planets = data.results;
             for (const planet of planets) {
                 const planetData = {
@@ -51,9 +51,13 @@ const syncPlanetsDataToDB = () => __awaiter(void 0, void 0, void 0, function* ()
                     console.log(`${planet.name} already exists in the database`);
                 }
             }
-            page++;
-            response = yield fetch(`https://swapi.dev/api/planets/?page=${page}&format=json`);
-            data = yield response.json();
+            if (data.next) {
+                page++;
+                response = yield fetch(`https://swapi.dev/api/planets/?page=${page}&format=json`);
+            }
+            else {
+                break;
+            }
         }
     }
     catch (error) {

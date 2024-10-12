@@ -17,64 +17,50 @@ const people_model_1 = __importDefault(require("./people.model"));
 const syncPeopleDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let page = 1;
-        let totalSynced = 0; // Para contar cuántos personajes se sincronizan
-        let totalProcessed = 0; // Para contar cuántos personajes en total se procesan
-        let hasNextPage = true;
-        while (hasNextPage) {
-            const response = yield fetch(`https://swapi.dev/api/people/?page=${page}&format=json`);
+        let response = yield fetch(`https://swapi.dev/api/people/?page=${page}&format=json`);
+        if (!response.ok) {
+            throw new Error("Error fetching data");
+        }
+        while (response.ok) {
             const data = yield response.json();
-            if (!response.ok) {
-                throw new Error(`Error fetching data on page ${page}`);
-            }
             const people = data.results;
-            totalProcessed += people.length; // Cuenta cuántos personajes se han procesado
-            console.log(`Processing page ${page}, with ${people.length} people`);
             for (const person of people) {
-                try {
-                    const personData = {
-                        name: person.name,
-                        height: person.height,
-                        mass: person.mass,
-                        hair_color: person.hair_color,
-                        skin_color: person.skin_color,
-                        eye_color: person.eye_color,
-                        birth_year: person.birth_year,
-                        gender: person.gender,
-                        homeworld: person.homeworld,
-                        films: person.films,
-                        species: person.species,
-                        vehicles: person.vehicles,
-                        starships: person.starships,
-                        created: person.created,
-                        edited: person.edited,
-                        url: person.url,
-                    };
-                    const existingPerson = yield people_model_1.default.findOne({ name: person.name });
-                    if (!existingPerson) {
-                        const newPerson = new people_model_1.default(personData);
-                        yield newPerson.save();
-                        totalSynced++;
-                        console.log(`Synchronized: ${person.name}`);
-                    }
-                    else {
-                        console.log(`${person.name} already exists in the database`);
-                    }
+                const personData = {
+                    name: person.name,
+                    height: person.height,
+                    mass: person.mass,
+                    hair_color: person.hair_color,
+                    skin_color: person.skin_color,
+                    eye_color: person.eye_color,
+                    birth_year: person.birth_year,
+                    gender: person.gender,
+                    homeworld: person.homeworld,
+                    films: person.films,
+                    species: person.species,
+                    vehicles: person.vehicles,
+                    starships: person.starships,
+                    created: person.created,
+                    edited: person.edited,
+                    url: person.url
+                };
+                const existingPerson = yield people_model_1.default.findOne({ name: person.name });
+                if (!existingPerson) {
+                    const newPerson = new people_model_1.default(personData);
+                    yield newPerson.save();
+                    console.log(`Synchronized: ${person.name}`);
                 }
-                catch (personError) {
-                    console.error(`Error syncing person: ${person.name}, Error: ${personError}`);
+                else {
+                    console.log(`${person.name} already exists in the database`);
                 }
             }
-            // Verifica si hay más páginas
             if (data.next) {
                 page++;
+                response = yield fetch(`https://swapi.dev/api/people/?page=${page}&format=json`);
             }
             else {
-                hasNextPage = false; // No hay más páginas
-                console.log('All pages processed.');
+                break;
             }
         }
-        console.log(`Total people processed: ${totalProcessed}`);
-        console.log(`Total people synchronized: ${totalSynced}`);
     }
     catch (error) {
         console.error("Error synchronizing data:", error);
@@ -93,8 +79,9 @@ const getPeople = (_req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getPeople = getPeople;
 const getPeopleById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id } = req.params;
-        const people = yield people_model_1.default.findById(id);
+        const { name } = req.params;
+        console.log(name);
+        const people = yield people_model_1.default.findOne({ name: name });
         res.status(200).json(people);
     }
     catch (error) {

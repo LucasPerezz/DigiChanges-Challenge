@@ -5,7 +5,7 @@ const peopleRouter = Router();
 
 peopleRouter.get('/', getPeople);
 
-peopleRouter.get('/:id', getPeopleById);
+peopleRouter.get('/:name', getPeopleById);
 
 
 export default peopleRouter;

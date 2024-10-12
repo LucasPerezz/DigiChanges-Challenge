@@ -68,8 +68,9 @@ export const getPeople = async (_req: Request, res: Response) => {
 
 export const getPeopleById = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const people = await peopleModel.findById(id);
+    const { name } = req.params;
+    console.log(name);
+    const people = await peopleModel.findOne({name: name});
     res.status(200).json(people);
   } catch (error) {
     throw new Error(`Error fetching data: ${error}`);

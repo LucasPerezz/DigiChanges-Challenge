@@ -1,6 +1,7 @@
 import express, { Request, Response, Express } from 'express';
 import dotenv from 'dotenv';
 import cron from 'node-cron';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import peopleRouter from './entities/people/people.routes';
 import { syncData } from './cron';
@@ -15,6 +16,7 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cors());
 
 app.use('/api/v1/people', peopleRouter);
 app.use('/api/v1/films', filmRouter);
