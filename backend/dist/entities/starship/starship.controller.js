@@ -14,6 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStarshipById = exports.getStarships = exports.syncStarshipDataToDB = void 0;
 const starship_model_1 = __importDefault(require("./starship.model"));
+<<<<<<< HEAD
+=======
+const people_model_1 = __importDefault(require("../people/people.model"));
+>>>>>>> a4c72e7991682420f9c4094b1861638445e34997
 const syncStarshipDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let page = 1;
@@ -81,8 +85,13 @@ const getStarships = (_req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.getStarships = getStarships;
 const getStarshipById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+<<<<<<< HEAD
         const { name } = req.params;
         const starship = yield starship_model_1.default.findOne({ name: name });
+=======
+        const { id } = req.params;
+        const starship = yield people_model_1.default.findById(id);
+>>>>>>> a4c72e7991682420f9c4094b1861638445e34997
         res.status(200).json(starship);
     }
     catch (error) {

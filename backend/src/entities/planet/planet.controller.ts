@@ -67,8 +67,13 @@ export const getPlanets = async (_req: Request, res: Response) => {
 
 export const getPlanetsById = async (req: Request, res: Response) => {
     try {
+<<<<<<< HEAD
         const {name} = req.params;
         const planet = await planetModel.findOne({name: name});
+=======
+        const {id} = req.params;
+        const planet = await planetModel.findById(id);
+>>>>>>> a4c72e7991682420f9c4094b1861638445e34997
         res.status(200).json(planet);
     } catch (error) {
         throw new Error(`Error fetching data: ${error}`);

@@ -1,4 +1,8 @@
 "use client"
+<<<<<<< HEAD
+=======
+
+>>>>>>> a4c72e7991682420f9c4094b1861638445e34997
 import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
 import { People } from "@/types/types";
