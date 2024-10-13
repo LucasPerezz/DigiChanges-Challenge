@@ -77,8 +77,8 @@ const getPlanets = (_req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getPlanets = getPlanets;
 const getPlanetsById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id } = req.params;
-        const planet = yield planet_model_1.default.findById(id);
+        const { name } = req.params;
+        const planet = yield planet_model_1.default.findOne({ name: name });
         res.status(200).json(planet);
     }
     catch (error) {
