@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPeopleById = exports.getPeople = exports.syncPeopleDataToDB = void 0;
+exports.getPeopleByName = exports.getPeople = exports.syncPeopleDataToDB = void 0;
 const people_model_1 = __importDefault(require("./people.model"));
 const syncPeopleDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -77,7 +77,7 @@ const getPeople = (_req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getPeople = getPeople;
-const getPeopleById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getPeopleByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.params;
         console.log(name);
@@ -88,4 +88,4 @@ const getPeopleById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         throw new Error(`Error fetching data: ${error}`);
     }
 });
-exports.getPeopleById = getPeopleById;
+exports.getPeopleByName = getPeopleByName;

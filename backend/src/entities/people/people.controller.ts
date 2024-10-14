@@ -66,7 +66,7 @@ export const getPeople = async (_req: Request, res: Response) => {
   }
 };
 
-export const getPeopleById = async (req: Request, res: Response) => {
+export const getPeopleByName = async (req: Request, res: Response) => {
   try {
     const { name } = req.params;
     console.log(name);

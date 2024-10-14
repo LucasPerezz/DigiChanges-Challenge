@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlanetsById = exports.getPlanets = exports.syncPlanetsDataToDB = void 0;
+exports.getPlanetsByName = exports.getPlanets = exports.syncPlanetsDataToDB = void 0;
 const planet_model_1 = __importDefault(require("./planet.model"));
 const syncPlanetsDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -75,7 +75,7 @@ const getPlanets = (_req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getPlanets = getPlanets;
-const getPlanetsById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getPlanetsByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.params;
         const planet = yield planet_model_1.default.findOne({ name: name });
@@ -85,4 +85,4 @@ const getPlanetsById = (req, res) => __awaiter(void 0, void 0, void 0, function*
         throw new Error(`Error fetching data: ${error}`);
     }
 });
-exports.getPlanetsById = getPlanetsById;
+exports.getPlanetsByName = getPlanetsByName;

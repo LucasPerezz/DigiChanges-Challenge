@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import starshipModel from "./starship.model";
-import peopleModel from "../people/people.model";
 
 export const syncStarshipDataToDB = async () => {
     try {
@@ -69,7 +68,7 @@ export const getStarships = async (_req: Request, res: Response) => {
     }
 }
 
-export const getStarshipById = async (req: Request, res: Response) => {
+export const getStarshipByName = async (req: Request, res: Response) => {
     try {
         const {name} = req.params;
         const starship = await starshipModel.findOne({name: name});

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFilmById = exports.getFilms = exports.syncFilmsDataToDB = void 0;
+exports.getFilmByTitle = exports.getFilms = exports.syncFilmsDataToDB = void 0;
 const film_model_1 = require("./film.model");
 const syncFilmsDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -24,7 +24,7 @@ const syncFilmsDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
             for (const film of films) {
                 const filmData = {
                     title: film.title,
-                    episode_id: film.episode_id, // Cambiado a episode_id (asegúrate de que coincida con la API)
+                    episode_id: film.episode_id,
                     opening_crawl: film.opening_crawl,
                     director: film.director,
                     producer: film.producer,
@@ -72,7 +72,7 @@ const getFilms = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getFilms = getFilms;
-const getFilmById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getFilmByTitle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { title } = req.params;
         const film = yield film_model_1.filmModel.findOne({ title: title });
@@ -82,4 +82,4 @@ const getFilmById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         throw new Error(`Error fetching data: ${error}`);
     }
 });
-exports.getFilmById = getFilmById;
+exports.getFilmByTitle = getFilmByTitle;

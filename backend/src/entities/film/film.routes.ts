@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { getFilmById, getFilms } from "./film.controller";
+import { getFilmByTitle, getFilms } from "./film.controller";
 
 const filmRouter = Router();
 
 filmRouter.get('/', getFilms);
 
-filmRouter.get('/:title', getFilmById);
+filmRouter.get('/:title', getFilmByTitle);
 
 export default filmRouter;

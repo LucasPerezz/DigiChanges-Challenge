@@ -65,7 +65,7 @@ export const getPlanets = async (_req: Request, res: Response) => {
     }
 }
 
-export const getPlanetsById = async (req: Request, res: Response) => {
+export const getPlanetsByName = async (req: Request, res: Response) => {
     try {
         const {name} = req.params;
         const planet = await planetModel.findOne({name: name});

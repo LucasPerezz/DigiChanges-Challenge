@@ -18,7 +18,7 @@ export const syncFilmsDataToDB = async () => {
         for (const film of films) {
           const filmData = {
             title: film.title,
-            episode_id: film.episode_id,  // Cambiado a episode_id (asegúrate de que coincida con la API)
+            episode_id: film.episode_id,
             opening_crawl: film.opening_crawl,
             director: film.director,
             producer: film.producer,
@@ -65,7 +65,7 @@ export const getFilms = async (_req: Request, res: Response) => {
     }
 }
 
-export const getFilmById = async (req: Request, res: Response) => {
+export const getFilmByTitle = async (req: Request, res: Response) => {
     try {
         const {title} = req.params;
         const film = await filmModel.findOne({title: title});

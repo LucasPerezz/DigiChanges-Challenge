@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getStarshipById = exports.getStarships = exports.syncStarshipDataToDB = void 0;
+exports.getStarshipByName = exports.getStarships = exports.syncStarshipDataToDB = void 0;
 const starship_model_1 = __importDefault(require("./starship.model"));
 const syncStarshipDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -79,7 +79,7 @@ const getStarships = (_req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getStarships = getStarships;
-const getStarshipById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getStarshipByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.params;
         const starship = yield starship_model_1.default.findOne({ name: name });
@@ -89,4 +89,4 @@ const getStarshipById = (req, res) => __awaiter(void 0, void 0, void 0, function
         throw new Error(`Error fetching data: ${error}`);
     }
 });
-exports.getStarshipById = getStarshipById;
+exports.getStarshipByName = getStarshipByName;
