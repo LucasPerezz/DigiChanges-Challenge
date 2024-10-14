@@ -8,10 +8,6 @@ interface MenuItems {
 
 export default function Navbar() {
   const menuItems: MenuItems[] = [
-<<<<<<< HEAD
-=======
-    { item: "Home", path: "/" },
->>>>>>> a4c72e7991682420f9c4094b1861638445e34997
     { item: "Films", path: "/films" },
     { item: "People", path: "/people" },
     { item: "Planets", path: "/planets" },
