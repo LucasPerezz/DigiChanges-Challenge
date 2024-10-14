@@ -5,7 +5,7 @@ import { syncPlanetsDataToDB } from '../entities/planet/planet.controller';
 import { syncStarshipDataToDB } from '../entities/starship/starship.controller';
 
 export const syncData = () => {
-    cron.schedule('* * * * *', async () => {
+    cron.schedule('0 * * * *', async () => {
         await syncPeopleDataToDB();
         await syncFilmsDataToDB();
         await syncPlanetsDataToDB();
