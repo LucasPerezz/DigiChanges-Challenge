@@ -19,7 +19,7 @@ dotenv.config();
 
 // Configuraciones
 const app: Express = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
@@ -33,8 +33,8 @@ app.use('/api/v1/planets', planetsRouter);
 // Fuerza la sincronizacion de datos desde la api hasta la base de datos
 syncData();
 
-cron.schedule('* * * * *', () => {
-  console.log('running a task every minute');
+cron.schedule('0 * * * *', () => {
+  console.log('running a task every hour');
 });
 
 
