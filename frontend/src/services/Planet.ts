@@ -13,7 +13,7 @@ class Planet {
 
     async getPlanetsByName(name: string) {
         try {
-            const response = await fetch(`${process.env.API_URL}/${name}`);
+            const response = await fetch(`${process.env.API_URL}/planets/${name}`);
             const data = await response.json();
             return data;
         } catch (error) {

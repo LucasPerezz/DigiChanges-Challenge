@@ -13,7 +13,7 @@ class People {
 
     async getPeopleById(name: string) {
         try {
-            const response = await fetch(`${process.env.API_URL}/${name}`);
+            const response = await fetch(`${process.env.API_URL}/people/${name}`);
             const data = await response.json();
             console.log('get', data);
             return data;
