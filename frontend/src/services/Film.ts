@@ -3,7 +3,7 @@ class Film {
 
     async getFilms() {
         try {
-            const response = await fetch("http://localhost:3000/api/v1/films/");
+            const response = await fetch(`${process.env.API_URL}/films/`);
             const data = await response.json();
             return data;
         } catch (error) {
@@ -13,7 +13,7 @@ class Film {
 
     async getFilmByName(title: string) {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/films/${title}`);
+            const response = await fetch(`${process.env.API_URL}/${title}`);
             const data = await response.json();
             return data;
         } catch (error) {

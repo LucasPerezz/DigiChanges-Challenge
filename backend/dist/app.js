@@ -19,7 +19,7 @@ const planet_routes_1 = __importDefault(require("./entities/planet/planet.routes
 dotenv_1.default.config();
 // Configuraciones
 const app = (0, express_1.default)();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)());
@@ -30,8 +30,8 @@ app.use('/api/v1/starships', starship_routes_1.default);
 app.use('/api/v1/planets', planet_routes_1.default);
 // Fuerza la sincronizacion de datos desde la api hasta la base de datos
 (0, cron_1.syncData)();
-node_cron_1.default.schedule('* * * * *', () => {
-    console.log('running a task every minute');
+node_cron_1.default.schedule('0 * * * *', () => {
+    console.log('running a task every hour');
 });
 // Servidor
 app.listen(PORT, () => {
