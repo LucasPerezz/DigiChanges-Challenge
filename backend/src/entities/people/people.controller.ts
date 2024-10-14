@@ -4,7 +4,9 @@ import peopleModel from "./people.model";
 export const syncPeopleDataToDB = async () => {
   try {
     let page = 1;
-    let response = await fetch(`https://swapi.dev/api/people/?page=${page}&format=json`);
+    let response = await fetch(
+      `https://swapi.dev/api/people/?page=${page}&format=json`
+    );
 
     if (!response.ok) {
       throw new Error("Error fetching data");
@@ -17,8 +19,8 @@ export const syncPeopleDataToDB = async () => {
       for (const person of people) {
         const personData = {
           name: person.name,
-          height: person.height,  
-          mass: person.mass,      
+          height: person.height,
+          mass: person.mass,
           hair_color: person.hair_color,
           skin_color: person.skin_color,
           eye_color: person.eye_color,
@@ -31,7 +33,7 @@ export const syncPeopleDataToDB = async () => {
           starships: person.starships,
           created: person.created,
           edited: person.edited,
-          url: person.url
+          url: person.url,
         };
 
         const existingPerson = await peopleModel.findOne({ name: person.name });
@@ -47,7 +49,9 @@ export const syncPeopleDataToDB = async () => {
 
       if (data.next) {
         page++;
-        response = await fetch(`https://swapi.dev/api/people/?page=${page}&format=json`);
+        response = await fetch(
+          `https://swapi.dev/api/people/?page=${page}&format=json`
+        );
       } else {
         break;
       }
@@ -69,9 +73,15 @@ export const getPeople = async (_req: Request, res: Response) => {
 export const getPeopleByName = async (req: Request, res: Response) => {
   try {
     const { name } = req.params;
-    console.log(name);
-    const people = await peopleModel.findOne({name: name});
-    res.status(200).json(people);
+    const people = await peopleModel.findOne({ name: name });
+    people
+      ? res.status(200).json(people)
+      : res
+          .status(400)
+          .json({
+            msg: `Doesn't exists ${name} character`,
+            code: res.statusCode,
+          });
   } catch (error) {
     throw new Error(`Error fetching data: ${error}`);
   }

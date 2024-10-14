@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.server = exports.app = void 0;
 // Librerias
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -19,6 +20,7 @@ const planet_routes_1 = __importDefault(require("./entities/planet/planet.routes
 dotenv_1.default.config();
 // Configuraciones
 const app = (0, express_1.default)();
+exports.app = app;
 const PORT = process.env.PORT || 3000;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -34,11 +36,12 @@ node_cron_1.default.schedule('0 * * * *', () => {
     console.log('running a task every hour');
 });
 // Servidor
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log("Server running at PORT: ", PORT);
 }).on("error", (error) => {
     throw new Error(error.message);
 });
+exports.server = server;
 // MongoDB
 const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/syncdb';
 mongoose_1.default.connect(mongoUri)

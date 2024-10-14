@@ -36,7 +36,7 @@ const syncFilmsDataToDB = () => __awaiter(void 0, void 0, void 0, function* () {
                     species: film.species,
                     created: film.created,
                     edited: film.edited,
-                    url: film.url
+                    url: film.url,
                 };
                 const existingFilm = yield film_model_1.filmModel.findOne({ title: film.title });
                 if (!existingFilm) {
@@ -76,7 +76,9 @@ const getFilmByTitle = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const { title } = req.params;
         const film = yield film_model_1.filmModel.findOne({ title: title });
-        res.status(200).json(film);
+        film
+            ? res.status(200).json(film)
+            : res.status(400).json({ msg: `Doesn't exists ${title} film`, code: res.statusCode });
     }
     catch (error) {
         throw new Error(`Error fetching data: ${error}`);

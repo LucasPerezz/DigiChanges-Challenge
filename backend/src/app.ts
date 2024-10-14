@@ -39,7 +39,7 @@ cron.schedule('0 * * * *', () => {
 
 
 // Servidor
-app.listen(PORT, () => { 
+const server = app.listen(PORT, () => { 
   console.log("Server running at PORT: ", PORT); 
 }).on("error", (error) => {
   throw new Error(error.message);
@@ -52,3 +52,6 @@ const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/syncdb';
 mongoose.connect(mongoUri)
   .then(() => console.log('MongoDB connected'))
   .catch((error) => console.error('MongoDB connection error:', error));
+
+
+export {app, server};
