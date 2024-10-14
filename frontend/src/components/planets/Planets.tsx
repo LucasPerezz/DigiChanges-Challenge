@@ -10,7 +10,11 @@ interface PlanetsProps {
 
 export default function Planets({planets}: PlanetsProps) {
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const pageSize = planets.length / 10;
+    const [searchPlanet, setSearchPlanet] = useState<string>("");
+    
+  const filteredPlanet = planets.filter((planet: Planet) => planet.name.toLowerCase().includes(searchPlanet.toLowerCase()));
+
+    const pageSize = filteredPlanet.length < 10 ? filteredPlanet.length : filteredPlanet.length / 10;
 
     const onPageChange = (page: number) => {
       if(currentPage >= 1) {
@@ -23,11 +27,21 @@ export default function Planets({planets}: PlanetsProps) {
         return items.slice(starIndex, starIndex + pageSize);
     }
 
-    const paginatedPlanets = paginate(planets, currentPage, pageSize);
+    const paginatedPlanets = paginate(filteredPlanet, currentPage, pageSize);
 
 
   return (
     <section className="flex flex-col items-center gap-4">
+      <input
+        type="text"
+        placeholder="Search planet..."
+        className="input input-bordered w-full max-w-xs"
+        value={searchPlanet}
+        onChange={(e) => {
+          setSearchPlanet(e.target.value);
+          setCurrentPage(1);
+        }}
+      />
       <div className="container flex flex-row flex-wrap mx-auto gap-2 justify-center items-center">
         {paginatedPlanets.map((planet: Planet) => {
           return (
@@ -35,7 +49,7 @@ export default function Planets({planets}: PlanetsProps) {
           );
         })}
       </div>
-      <Pagination currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} items={planets.length} />
+      <Pagination currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} items={filteredPlanet.length} />
     </section>
   );
 }

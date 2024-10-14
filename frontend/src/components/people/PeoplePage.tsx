@@ -10,7 +10,14 @@ interface PeopleProps {
 
 export default function PeoplePage({people} : PeopleProps) {
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const pageSize = people.length / 10;
+    const [searchPerson, setSearchPerson] = useState<string>("");
+    
+
+    const filteredPeople = people.filter((people: People) =>
+      people.name.toLowerCase().includes(searchPerson.toLowerCase())
+    );
+
+    const pageSize = filteredPeople.length / 10;
 
     const onPageChange = (page: number) => {
       if(currentPage >= 1) {
@@ -23,11 +30,21 @@ export default function PeoplePage({people} : PeopleProps) {
         return items.slice(starIndex, starIndex + pageSize);
     }
 
-    const paginatedPeople = paginate(people, currentPage, pageSize);
+    const paginatedPeople = paginate(filteredPeople, currentPage, pageSize);
 
 
   return (
     <section className="flex flex-col items-center gap-4">
+      <input
+        type="text"
+        placeholder="Search person..."
+        className="input input-bordered w-full max-w-xs"
+        value={searchPerson}
+        onChange={(e) => {
+          setSearchPerson(e.target.value);
+          setCurrentPage(1);
+        }}
+      />
       <div className="container flex flex-row flex-wrap mx-auto gap-2 justify-center items-center">
         {paginatedPeople.map((person: People) => {
           return (
@@ -35,7 +52,7 @@ export default function PeoplePage({people} : PeopleProps) {
           );
         })}
       </div>
-      <Pagination currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} items={people.length} />
+      <Pagination currentPage={currentPage} pageSize={pageSize} onPageChange={onPageChange} items={filteredPeople.length} />
     </section>
   );
 }
