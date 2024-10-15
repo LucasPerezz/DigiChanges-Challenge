@@ -3,7 +3,7 @@ class Planet {
 
   async getPlanets() {
     try {
-      const response = await fetch(`${process.env.API_URL}/planets`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/planets`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -13,7 +13,7 @@ class Planet {
 
   async getPlanetsByName(name: string) {
     try {
-      const response = await fetch(`${process.env.API_URL}/planets/${name}`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/planets/${name}`);
       const data = await response.json();
       return data;
     } catch (error) {

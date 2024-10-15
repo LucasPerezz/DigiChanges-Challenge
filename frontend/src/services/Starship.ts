@@ -3,7 +3,7 @@ class Starship {
 
   async getStarships() {
     try {
-      const response = await fetch(`${process.env.API_URL}/starships`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/starships`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -13,7 +13,7 @@ class Starship {
 
   async getStarshipByName(name: string) {
     try {
-      const response = await fetch(`${process.env.API_URL}/starships/${name}`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/starships/${name}`);
       const data = await response.json();
       return data;
     } catch (error) {

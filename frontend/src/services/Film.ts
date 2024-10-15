@@ -3,7 +3,7 @@ class Film {
 
   async getFilms() {
     try {
-      const response = await fetch(`${process.env.API_URL}/films/`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/films/`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -13,7 +13,7 @@ class Film {
 
   async getFilmByName(title: string) {
     try {
-      const response = await fetch(`${process.env.API_URL}/films/${title}`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/films/${title}`);
       const data = await response.json();
       return data;
     } catch (error) {

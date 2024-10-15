@@ -3,7 +3,7 @@ class People {
 
   async getPeople() {
     try {
-      const response = await fetch(`${process.env.API_URL}/people`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/people`);
       const data = await response.json();
       return data;
     } catch (error) {
@@ -13,7 +13,7 @@ class People {
 
   async getPeopleById(name: string) {
     try {
-      const response = await fetch(`${process.env.API_URL}/people/${name}`);
+      const response = await fetch(`https://digichanges-challenge-backend.onrender.com/api/v1/people/${name}`);
       const data = await response.json();
       console.log("get", data);
       return data;
