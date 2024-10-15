@@ -1,6 +1,5 @@
 // Librerias
 import express, { Express } from "express";
-import dotenv from "dotenv";
 import cron from "node-cron";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -14,11 +13,10 @@ import filmRouter from "./entities/film/film.routes";
 import starshipRouter from "./entities/starship/starship.routes";
 import planetsRouter from "./entities/planet/planet.routes";
 
-dotenv.config();
 
 // Configuraciones
 const app: Express = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -46,7 +44,7 @@ const server = app
   });
 
 // MongoDB
-const mongoUri = process.env.MONGO_URL || "mongodb://localhost:27017/syncdb";
+const mongoUri = "mongodb+srv://perezlucas2609:perezlucas2609@cluster0.q8zwb.mongodb.net/";
 
 mongoose
   .connect(mongoUri)
