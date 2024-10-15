@@ -53,13 +53,13 @@ export default function Navbar() {
       </div>
       <div className="navbar-end hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          {menuItems.map(({item, path}) => {
+          {menuItems.map(({ item, path }) => {
             return (
               <Link href={path} key={item}>
-              <li>
-                <p>{item}</p>
-              </li>
-            </Link>
+                <li>
+                  <p>{item}</p>
+                </li>
+              </Link>
             );
           })}
         </ul>

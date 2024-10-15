@@ -1,15 +1,15 @@
-import Navbar from '@/components/ui/Navbar'
-import React, { ReactNode } from 'react'
+import Navbar from "@/components/ui/Navbar";
+import React, { ReactNode } from "react";
 
 interface LayoutProps {
-    children: ReactNode;
-  }
+  children: ReactNode;
+}
 
-export default function layout({children} : LayoutProps) {
+export default function layout({ children }: LayoutProps) {
   return (
-    <div className='flex flex-col gap-3'>
-        <Navbar />
-        {children}
+    <div className="flex flex-col gap-3">
+      <Navbar />
+      {children}
     </div>
-  )
+  );
 }

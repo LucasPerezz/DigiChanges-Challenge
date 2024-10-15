@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
 interface Data extends Document {
   name: string;
@@ -19,7 +19,7 @@ interface Data extends Document {
   url: string;
 }
 
-const peopleCollection = 'People'
+const peopleCollection = "People";
 
 const peopleSchema: Schema = new Schema({
   name: { type: String },
@@ -37,7 +37,7 @@ const peopleSchema: Schema = new Schema({
   starships: { type: [String], default: [] },
   created: { type: String },
   edited: { type: String },
-  url: { type: String }
+  url: { type: String },
 });
 
 const peopleModel = mongoose.model<Data>(peopleCollection, peopleSchema);

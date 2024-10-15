@@ -76,12 +76,10 @@ export const getPeopleByName = async (req: Request, res: Response) => {
     const people = await peopleModel.findOne({ name: name });
     people
       ? res.status(200).json(people)
-      : res
-          .status(400)
-          .json({
-            msg: `Doesn't exists ${name} character`,
-            code: res.statusCode,
-          });
+      : res.status(400).json({
+          msg: `Doesn't exists ${name} character`,
+          code: res.statusCode,
+        });
   } catch (error) {
     throw new Error(`Error fetching data: ${error}`);
   }

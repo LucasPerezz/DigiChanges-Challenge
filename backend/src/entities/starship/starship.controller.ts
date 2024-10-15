@@ -80,12 +80,10 @@ export const getStarshipByName = async (req: Request, res: Response) => {
     const starship = await starshipModel.findOne({ name: name });
     starship
       ? res.status(200).json(starship)
-      : res
-          .status(400)
-          .json({
-            msg: `Doesn't exists ${name} starship`,
-            code: res.statusCode,
-          });
+      : res.status(400).json({
+          msg: `Doesn't exists ${name} starship`,
+          code: res.statusCode,
+        });
   } catch (error) {
     throw new Error(`Error fetching data: ${error}`);
   }
