@@ -41,7 +41,7 @@ const syncPeopleDataToDB = () => __awaiter(void 0, void 0, void 0, function* () 
                     starships: person.starships,
                     created: person.created,
                     edited: person.edited,
-                    url: person.url
+                    url: person.url,
                 };
                 const existingPerson = yield people_model_1.default.findOne({ name: person.name });
                 if (!existingPerson) {
@@ -80,9 +80,13 @@ exports.getPeople = getPeople;
 const getPeopleByName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name } = req.params;
-        console.log(name);
         const people = yield people_model_1.default.findOne({ name: name });
-        res.status(200).json(people);
+        people
+            ? res.status(200).json(people)
+            : res.status(400).json({
+                msg: `Doesn't exists ${name} character`,
+                code: res.statusCode,
+            });
     }
     catch (error) {
         throw new Error(`Error fetching data: ${error}`);

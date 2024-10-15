@@ -24,22 +24,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const planetCollection = 'Planet';
+const planetCollection = "Planet";
 const planetSchema = new mongoose_1.Schema({
-    name: { type: String, required: true },
-    rotation_period: { type: String, required: true },
-    orbital_period: { type: String, required: true },
-    diameter: { type: String, required: true },
-    climate: { type: String, required: true },
-    gravity: { type: String, required: true },
-    terrain: { type: String, required: true },
-    surface_water: { type: String, required: true },
-    population: { type: String, required: true },
+    name: { type: String },
+    rotation_period: { type: String },
+    orbital_period: { type: String },
+    diameter: { type: String },
+    climate: { type: String },
+    gravity: { type: String },
+    terrain: { type: String },
+    surface_water: { type: String },
+    population: { type: String },
     residents: { type: [String], default: [] },
     films: { type: [String], default: [] },
-    created: { type: Date, required: true },
-    edited: { type: Date, required: true },
-    url: { type: String, required: true }
+    created: { type: Date },
+    edited: { type: Date },
+    url: { type: String },
 });
 const planetModel = mongoose_1.default.model(planetCollection, planetSchema);
 exports.default = planetModel;

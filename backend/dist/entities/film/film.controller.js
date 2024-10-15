@@ -78,7 +78,9 @@ const getFilmByTitle = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const film = yield film_model_1.filmModel.findOne({ title: title });
         film
             ? res.status(200).json(film)
-            : res.status(400).json({ msg: `Doesn't exists ${title} film`, code: res.statusCode });
+            : res
+                .status(400)
+                .json({ msg: `Doesn't exists ${title} film`, code: res.statusCode });
     }
     catch (error) {
         throw new Error(`Error fetching data: ${error}`);

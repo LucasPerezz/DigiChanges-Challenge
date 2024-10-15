@@ -15,57 +15,64 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const app_1 = require("../app");
 const mongoose_1 = __importDefault(require("mongoose"));
-describe('GET /people/', () => {
-    it('should fetch all people', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app_1.app).get('/api/v1/people');
+describe("GET /people/", () => {
+    it("should fetch all people", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.app).get("/api/v1/people");
         expect(response.status).toBe(200);
     }));
 });
-describe('GET /people/:name', () => {
-    it('should fetch character by name', () => __awaiter(void 0, void 0, void 0, function* () {
+describe("GET /people/:name", () => {
+    it("should fetch character by name", () => __awaiter(void 0, void 0, void 0, function* () {
         const characterName = "Luke Skywalker";
         const response = yield (0, supertest_1.default)(app_1.app).get(`/api/v1/people/${characterName}`);
         expect(response.status).toBe(200);
-        expect(response.body).toHaveProperty('name', characterName);
+        expect(response.body).toHaveProperty("name", characterName);
     }));
 });
-describe('GET /starships/', () => {
-    it('should fetch all starships', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app_1.app).get('/api/v1/starships/');
+describe("GET /starships/", () => {
+    it("should fetch all starships", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.app).get("/api/v1/starships/");
         expect(response.status).toBe(200);
     }));
 });
-describe('GET /starships/:name', () => {
-    it('should fetch starship by name', () => __awaiter(void 0, void 0, void 0, function* () {
+describe("GET /starships/:name", () => {
+    it("should fetch starship by name", () => __awaiter(void 0, void 0, void 0, function* () {
         const starship = "Death Star";
         const response = yield (0, supertest_1.default)(app_1.app).get(`/api/v1/starships/${starship}`);
         expect(response.status).toBe(200);
     }));
 });
-describe('GET /planets/', () => {
-    it('should fetch all planets', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app_1.app).get('/api/v1/planets/');
+describe("GET /planets/", () => {
+    it("should fetch all planets", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.app).get("/api/v1/planets/");
         expect(response.status).toBe(200);
     }));
 });
-describe('GET /planets/:name', () => {
-    it('should fetch planet by name', () => __awaiter(void 0, void 0, void 0, function* () {
+describe("GET /planets/:name", () => {
+    it("should fetch planet by name", () => __awaiter(void 0, void 0, void 0, function* () {
         const planet = "Tatooine";
         const response = yield (0, supertest_1.default)(app_1.app).get(`/api/v1/planets/${planet}`);
         expect(response.status).toBe(200);
     }));
 });
-describe('GET /films/', () => {
-    it('should fetch all films', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app_1.app).get('/api/v1/films/');
+describe("GET /films/", () => {
+    it("should fetch all films", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(app_1.app).get("/api/v1/films/");
         expect(response.status).toBe(200);
     }));
 });
-describe('GET /films/:title', () => {
-    it('should fetch film by title', () => __awaiter(void 0, void 0, void 0, function* () {
+describe("GET /films/:title", () => {
+    it("should fetch film by title", () => __awaiter(void 0, void 0, void 0, function* () {
         const film = "A New Hope";
         const response = yield (0, supertest_1.default)(app_1.app).get(`/api/v1/films/${film}`);
         expect(response.status).toBe(200);
+    }));
+});
+describe("GET /films/:title", () => {
+    it("fetch error with 400 code", () => __awaiter(void 0, void 0, void 0, function* () {
+        const film = "awdasd";
+        const response = yield (0, supertest_1.default)(app_1.app).get(`/api/v1/films/${film}`);
+        expect(response.status).toBe(400);
     }));
 });
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {

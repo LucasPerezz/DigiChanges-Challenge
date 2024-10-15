@@ -39,7 +39,7 @@ const syncPlanetsDataToDB = () => __awaiter(void 0, void 0, void 0, function* ()
                     films: planet.films,
                     created: planet.created,
                     edited: planet.edited,
-                    url: planet.url
+                    url: planet.url,
                 };
                 const existingPlanet = yield planet_model_1.default.findOne({ name: planet.name });
                 if (!existingPlanet) {
@@ -79,7 +79,11 @@ const getPlanetsByName = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const { name } = req.params;
         const planet = yield planet_model_1.default.findOne({ name: name });
-        res.status(200).json(planet);
+        planet
+            ? res.status(200).json(planet)
+            : res
+                .status(400)
+                .json({ msg: `Doesn't exists ${name} planet`, code: res.statusCode });
     }
     catch (error) {
         throw new Error(`Error fetching data: ${error}`);

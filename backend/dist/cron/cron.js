@@ -19,7 +19,7 @@ const film_controller_1 = require("../entities/film/film.controller");
 const planet_controller_1 = require("../entities/planet/planet.controller");
 const starship_controller_1 = require("../entities/starship/starship.controller");
 const syncData = () => {
-    node_cron_1.default.schedule('0 * * * *', () => __awaiter(void 0, void 0, void 0, function* () {
+    node_cron_1.default.schedule("0 * * * *", () => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, people_controller_1.syncPeopleDataToDB)();
         yield (0, film_controller_1.syncFilmsDataToDB)();
         yield (0, planet_controller_1.syncPlanetsDataToDB)();

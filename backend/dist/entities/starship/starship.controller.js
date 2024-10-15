@@ -43,9 +43,11 @@ const syncStarshipDataToDB = () => __awaiter(void 0, void 0, void 0, function* (
                     films: starship.films,
                     created: starship.created,
                     edited: starship.edited,
-                    url: starship.url
+                    url: starship.url,
                 };
-                const existingStarship = yield starship_model_1.default.findOne({ name: starship.name });
+                const existingStarship = yield starship_model_1.default.findOne({
+                    name: starship.name,
+                });
                 if (!existingStarship) {
                     const newStarship = new starship_model_1.default(starshipData);
                     yield newStarship.save();
@@ -83,7 +85,12 @@ const getStarshipByName = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { name } = req.params;
         const starship = yield starship_model_1.default.findOne({ name: name });
-        res.status(200).json(starship);
+        starship
+            ? res.status(200).json(starship)
+            : res.status(400).json({
+                msg: `Doesn't exists ${name} starship`,
+                code: res.statusCode,
+            });
     }
     catch (error) {
         throw new Error(`Error fetching data: ${error}`);

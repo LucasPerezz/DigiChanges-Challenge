@@ -27,19 +27,19 @@ exports.filmModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const filmCollection = "Films";
 const filmSchema = new mongoose_1.Schema({
-    title: String,
-    episode_id: Number,
-    opening_crawl: String,
-    director: String,
-    producer: String,
-    release_date: Date,
-    characters: [String],
-    planets: [String],
-    starships: [String],
-    vehicles: [String],
-    species: [String],
-    created: Date,
-    edited: Date,
-    url: String
+    title: { type: String },
+    episode_id: { type: Number },
+    opening_crawl: { type: String },
+    director: { type: String },
+    producer: { type: String },
+    release_date: { type: Date },
+    characters: { type: [String], default: [] },
+    planets: { type: [String], default: [] },
+    starships: { type: [String], default: [] },
+    vehicles: { type: [String], default: [] },
+    species: { type: [String], default: [] },
+    created: { type: Date },
+    edited: { type: Date },
+    url: { type: String },
 });
 exports.filmModel = mongoose_1.default.model(filmCollection, filmSchema);

@@ -24,7 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-const peopleCollection = 'People';
+const peopleCollection = "People";
 const peopleSchema = new mongoose_1.Schema({
     name: { type: String },
     height: { type: String },
@@ -41,7 +41,7 @@ const peopleSchema = new mongoose_1.Schema({
     starships: { type: [String], default: [] },
     created: { type: String },
     edited: { type: String },
-    url: { type: String }
+    url: { type: String },
 });
 const peopleModel = mongoose_1.default.model(peopleCollection, peopleSchema);
 exports.default = peopleModel;

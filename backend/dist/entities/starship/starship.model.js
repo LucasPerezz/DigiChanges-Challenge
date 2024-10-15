@@ -24,25 +24,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-;
 const starshipCollection = "Starship";
 const starshipSchema = new mongoose_1.Schema({
-    name: String,
-    model: String,
-    manufacturer: String,
-    cost_in_credits: String,
-    length: String,
-    passengers: String,
-    cargo_capacity: String,
-    consumables: String,
-    hyperdrive_rating: String,
-    MGLT: String,
-    starship_class: String,
-    pilots: [String],
-    films: [String],
-    created: String,
-    edited: String,
-    url: String
+    name: { type: String },
+    model: { type: String },
+    manufacturer: { type: String },
+    cost_in_credits: { type: String },
+    length: { type: String },
+    passengers: { type: String },
+    cargo_capacity: { type: String },
+    consumables: { type: String },
+    hyperdrive_rating: { type: String },
+    MGLT: { type: String },
+    starship_class: { type: String },
+    pilots: { type: [String], default: [] },
+    films: { type: [String], default: [] },
+    created: { type: String },
+    edited: { type: String },
+    url: { type: String },
 });
 const starshipModel = mongoose_1.default.model(starshipCollection, starshipSchema);
 exports.default = starshipModel;
