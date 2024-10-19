@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
+import { Roboto } from "next/font/google";
 import "./globals.css";
+import { NextFont } from "next/dist/compiled/@next/font";
 
 export const metadata: Metadata = {
-  title: "StarWiki"
+  title: "StarWiki",
 };
+
+const roboto: NextFont = Roboto({
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export default function RootLayout({
   children,
@@ -12,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className={roboto.className}>{children}</body>
     </html>
   );
 }

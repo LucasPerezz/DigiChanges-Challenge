@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -49,13 +50,16 @@ export default function Navbar() {
             })}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">StarWiki</a>
+        <div className="flex items-center gap-2">
+          <Image src={'https://i.ibb.co/dBrKSDr/pngegg.png'} height={50} width={50} alt="logo starwiki" />
+          <a className="btn btn-ghost text-xl lg:text-3xl">StarWiki</a>
+        </div>
       </div>
       <div className="navbar-end hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           {menuItems.map(({ item, path }) => {
             return (
-              <Link href={path} key={item}>
+              <Link href={path} key={item} className="text-lg lg:text-xl">
                 <li>
                   <p>{item}</p>
                 </li>

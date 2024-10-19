@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
-import daisyui from 'daisyui'
+import daisyui from "daisyui";
 
+/** @type {import('tailwindcss').Config} */
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -16,7 +17,11 @@ const config: Config = {
     },
   },
   plugins: [
-    daisyui
+    daisyui,
   ],
+  daisyui: {
+    themes: ["luxury"],
+  },
 };
+
 export default config;

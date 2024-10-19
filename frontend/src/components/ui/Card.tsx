@@ -1,29 +1,26 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GrFormView } from "react-icons/gr";
 
 import React from "react";
 
 interface CardProps {
-  name?: string;
   title?: string;
   description?: string;
-  gender?: string;
 }
 
-export default function Card({ name, title, description, gender }: CardProps) {
+export default function Card({ title, description }: CardProps) {
   const pathName = usePathname();
 
-  console.log("card name", name);
-
   return (
-    <div className="card bg-base-100 w-96 shadow-xl">
+    <div className="card bg-base-200 w-96 shadow-xl">
       <div className="card-body">
-        <h2 className="card-title">{name ?? title}</h2>
-        <p>{description ?? gender}</p>
-        <div className="card-actions justify-end">
-          <Link href={`${pathName}/${name ?? ""}`}>
-            <button className="btn btn-primary">View More</button>
+        <h2 className="card-title">{title}</h2>
+        <p>{description}</p>
+        <div className="card-actions justify-center">
+          <Link href={`${pathName}/${title ?? ""}`}>
+            <button className="btn btn-base-100 flex items-center"><GrFormView size={40}/><span>More Information</span></button>
           </Link>
         </div>
       </div>
