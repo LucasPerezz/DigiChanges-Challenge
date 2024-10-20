@@ -50,7 +50,7 @@ export default function Films({ films }: FilmsProps) {
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
-          {!paginatedFilms ? (
+          {!filteredFilms ? (
             <span className="loading loading-dots loading-lg"></span>
           ) : (
             paginatedFilms.map((film: Film) => {

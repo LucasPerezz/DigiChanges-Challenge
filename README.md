@@ -36,18 +36,24 @@ Visual Studio Code
 Git
 Github
 
+## Documentacion
+Migracion de npm a pnpm
+https://britishgeologicalsurvey.github.io/development/migrating-from-npm-to-pnpm/
+
+
+
 
 Feedback frontend:
 [X] Faltan loaders que den una mejor experiencia de usuario, cuando la API tarda en responder no se sabe si la APP se trabo o hay que esperar.
 [] Se duplica el codigo innecesariamente, por ejemplo, en la paginación se repite la misma lógica en todos los page.
 [X] Se dejaron varios logs a lo largo de la app.
-[] La app, a veces, crashea cuando queres ver un detalle de una entidad.
+[X] La app, a veces, crashea cuando queres ver un detalle de una entidad.
 [] La paginación esta hecha solo de el front-end, es decir, se hace un get all y de ahí se pagina. Lo que debería hacerse es hacer un limit y un offset para pedir solo la cantidad de items necesarios por pagina.
 
 
 Feedback backend:
 [] No se implementaron filtros ni paginación
-[] Se dejo la carpeta DIST en el repositorio. (Esto es mala practica, no esn necesario subir el build a github)
+[X] Se dejo la carpeta DIST en el repositorio. (Esto es mala practica, no esn necesario subir el build a github)
 [] Se manejan ciclos iterativos para guardar información en la DB cuando podríamos hacer un insertMany.
 [] Lógica de la aplicación se concentra en el controlador, cuando no es su funcionalidad, debería haber casos de uso / servicios. (estudiar arquitectura en capas)
-[] No usar NPM como gestor de paquetes, usar PNPM.
+[X] No usar NPM como gestor de paquetes, usar PNPM.

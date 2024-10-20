@@ -7,7 +7,8 @@
   "scripts": {
     "test": "npx jest",
     "start": "node dist/app.js",
-    "build": "npx tsc"
+    "build": "npx tsc",
+    "preinstall": "npx only-allow pnpm"
   },
   "keywords": [],
   "author": "",
