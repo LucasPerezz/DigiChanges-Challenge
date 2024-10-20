@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, PaginateModel } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 interface Data extends Document {
   name: string;
@@ -36,6 +37,11 @@ const planetSchema: Schema = new Schema({
   url: { type: String },
 });
 
-const planetModel = mongoose.model<Data>(planetCollection, planetSchema);
+planetSchema.plugin(mongoosePaginate);
+
+const planetModel = mongoose.model<Data, PaginateModel<Data>>(
+  planetCollection,
+  planetSchema
+);
 
 export default planetModel;

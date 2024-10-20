@@ -61,12 +61,20 @@ export const syncPeopleDataToDB = async () => {
   }
 };
 
-export const getPeople = async (_req: Request, res: Response) => {
+export const getPeople = async (req: Request, res: Response) => {
   try {
-    const people = await peopleModel.find();
+    const { limit, offset } = req.query;
+
+    const options = {
+      offset: Number(offset) || 0,
+      limit: Number(limit) || 10,
+    };
+
+    const people = await peopleModel.paginate({}, options);
+
     res.status(200).json(people);
   } catch (error) {
-    throw new Error(`Error fetching data: ${error}`);
+    res.status(500).json({ message: `Error fetching data` });
   }
 };
 

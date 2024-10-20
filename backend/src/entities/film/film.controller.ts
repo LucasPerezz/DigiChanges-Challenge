@@ -59,12 +59,20 @@ export const syncFilmsDataToDB = async () => {
   }
 };
 
-export const getFilms = async (_req: Request, res: Response) => {
+export const getFilms = async (req: Request, res: Response) => {
   try {
-    const films = await filmModel.find();
+    const { limit, offset } = req.query;
+
+    const options = {
+      offset: Number(offset) || 0,
+      limit: Number(limit) || 10,
+    };
+
+    const films = await filmModel.paginate({}, options);
+
     res.status(200).json(films);
   } catch (error) {
-    throw new Error(`Error fetching data: ${error}`);
+    res.status(500).json({ message: `Error fetching data` });
   }
 };
 

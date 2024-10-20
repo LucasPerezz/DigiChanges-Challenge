@@ -1,8 +1,9 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, PaginateModel, Schema } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const filmCollection = "Films";
 
-interface Data {
+interface Data extends Document {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -35,4 +36,9 @@ const filmSchema: Schema = new Schema({
   url: { type: String },
 });
 
-export const filmModel = mongoose.model<Data>(filmCollection, filmSchema);
+filmSchema.plugin(mongoosePaginate);
+
+export const filmModel = mongoose.model<Data, PaginateModel<Data>>(
+  filmCollection,
+  filmSchema
+);

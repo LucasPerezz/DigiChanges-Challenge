@@ -41,6 +41,8 @@ Migracion de npm a pnpm
 https://britishgeologicalsurvey.github.io/development/migrating-from-npm-to-pnpm/
 
 
+## Notas
+Agregar una dependencia con pnpm -> pnpm add [dependencia] -w //Instala la dependencia en el workspace
 
 
 Feedback frontend:

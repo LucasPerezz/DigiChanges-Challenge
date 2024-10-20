@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { PaginateModel, Schema } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 interface Data {
   name: string;
@@ -40,6 +41,11 @@ const starshipSchema: Schema = new Schema({
   url: { type: String },
 });
 
-const starshipModel = mongoose.model<Data>(starshipCollection, starshipSchema);
+starshipSchema.plugin(mongoosePaginate);
+
+const starshipModel = mongoose.model<Data, PaginateModel<Data>>(
+  starshipCollection,
+  starshipSchema
+);
 
 export default starshipModel;

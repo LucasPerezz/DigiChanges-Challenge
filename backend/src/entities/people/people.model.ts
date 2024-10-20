@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, PaginateModel } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 interface Data extends Document {
   name: string;
@@ -40,6 +41,11 @@ const peopleSchema: Schema = new Schema({
   url: { type: String },
 });
 
-const peopleModel = mongoose.model<Data>(peopleCollection, peopleSchema);
+peopleSchema.plugin(mongoosePaginate);
+
+const peopleModel = mongoose.model<Data, PaginateModel<Data>>(
+  peopleCollection,
+  peopleSchema
+);
 
 export default peopleModel;
