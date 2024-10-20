@@ -40,7 +40,7 @@ Github
 Feedback frontend:
 [X] Faltan loaders que den una mejor experiencia de usuario, cuando la API tarda en responder no se sabe si la APP se trabo o hay que esperar.
 [] Se duplica el codigo innecesariamente, por ejemplo, en la paginación se repite la misma lógica en todos los page.
-[] Se dejaron varios logs a lo largo de la app.
+[X] Se dejaron varios logs a lo largo de la app.
 [] La app, a veces, crashea cuando queres ver un detalle de una entidad.
 [] La paginación esta hecha solo de el front-end, es decir, se hace un get all y de ahí se pagina. Lo que debería hacerse es hacer un limit y un offset para pedir solo la cantidad de items necesarios por pagina.
 
