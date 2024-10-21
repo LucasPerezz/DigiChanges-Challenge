@@ -63,14 +63,18 @@ export const syncPeopleDataToDB = async () => {
 
 export const getPeople = async (req: Request, res: Response) => {
   try {
-    const { limit, offset } = req.query;
+    const { limit, offset, name } = req.query;
 
     const options = {
       offset: Number(offset) || 0,
       limit: Number(limit) || 10,
     };
 
-    const people = await peopleModel.paginate({}, options);
+    const filters: any = {};
+
+    if (name) filters.name = { $regex: name, $options: "i" };
+
+    const people = await peopleModel.paginate(filters, options);
 
     res.status(200).json(people);
   } catch (error) {

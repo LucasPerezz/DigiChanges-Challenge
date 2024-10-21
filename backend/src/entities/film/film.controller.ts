@@ -61,14 +61,20 @@ export const syncFilmsDataToDB = async () => {
 
 export const getFilms = async (req: Request, res: Response) => {
   try {
-    const { limit, offset } = req.query;
+    const { limit, offset, title } = req.query;
 
     const options = {
       offset: Number(offset) || 0,
       limit: Number(limit) || 10,
     };
 
-    const films = await filmModel.paginate({}, options);
+    const filters: any = {};
+
+    if (title) {
+      filters.title = { $regex: title, $options: "i" }; // case insensitive -> ignora mayusculas y minusculas
+    }
+
+    const films = await filmModel.paginate(filters, options);
 
     res.status(200).json(films);
   } catch (error) {

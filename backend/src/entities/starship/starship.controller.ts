@@ -67,14 +67,18 @@ export const syncStarshipDataToDB = async () => {
 
 export const getStarships = async (req: Request, res: Response) => {
   try {
-    const { limit, offset } = req.query;
+    const { limit, offset, name } = req.query;
 
     const options = {
       offset: Number(offset) || 0,
       limit: Number(limit) || 10,
     };
 
-    const starships = await starshipModel.paginate({}, options);
+    const filters: any = {};
+
+    if (name) filters.name = { $regex: name, $options: "i" };
+
+    const starships = await starshipModel.paginate(filters, options);
 
     res.status(200).json(starships);
   } catch (error) {

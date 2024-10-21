@@ -61,14 +61,18 @@ export const syncPlanetsDataToDB = async () => {
 
 export const getPlanets = async (req: Request, res: Response) => {
   try {
-    const { limit, offset } = req.query;
+    const { limit, offset, name } = req.query;
 
     const options = {
       offset: Number(offset) || 0,
       limit: Number(limit) || 10,
     };
 
-    const planets = await planetModel.paginate({}, options);
+    const filters: any = {};
+
+    if (name) filters.name = { $regex: name, $options: "i" };
+
+    const planets = await planetModel.paginate(filters, options);
 
     res.status(200).json(planets);
   } catch (error) {
