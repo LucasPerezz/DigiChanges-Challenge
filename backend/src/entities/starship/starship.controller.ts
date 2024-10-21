@@ -1,7 +1,28 @@
 import { Request, Response } from "express";
 import starshipModel from "./starship.model";
 
-export const syncStarshipDataToDB = async () => {
+interface Starship {
+  name: string;
+  model: string;
+  manufacturer: string;
+  cost_in_credits: string;
+  length: string;
+  max_atmosphering_speed: string;
+  crew: string;
+  passengers: string;
+  cargo_capacity: string;
+  consumables: string;
+  hyperdrive_rating: string;
+  MGLT: string;
+  starship_class: string;
+  pilots: string[];
+  films: string[];
+  created: string;
+  edited: string;
+  url: string;
+}
+
+export const syncStarshipDataToDB = async (): Promise<void> => {
   try {
     let page = 1;
     let response = await fetch(
@@ -14,41 +35,42 @@ export const syncStarshipDataToDB = async () => {
 
     while (response.ok) {
       const data = await response.json();
-      const starships = data.results;
+      const starships: Starship[] = data.results.map((starship: Starship) => ({
+        name: starship.name,
+        model: starship.model,
+        manufacturer: starship.manufacturer,
+        cost_in_credits: starship.cost_in_credits,
+        length: starship.length,
+        max_atmosphering_speed: starship.max_atmosphering_speed,
+        crew: starship.crew,
+        passengers: starship.passengers,
+        cargo_capacity: starship.cargo_capacity,
+        consumables: starship.consumables,
+        hyperdrive_rating: starship.hyperdrive_rating,
+        MGLT: starship.MGLT,
+        starship_class: starship.starship_class,
+        pilots: starship.pilots,
+        films: starship.films,
+        created: starship.created,
+        edited: starship.edited,
+        url: starship.url,
+      }));
 
-      for (const starship of starships) {
-        const starshipData = {
-          name: starship.name,
-          model: starship.model,
-          manufacturer: starship.manufacturer,
-          cost_in_credits: starship.cost_in_credits,
-          length: starship.length,
-          max_atmosphering_speed: starship.max_atmosphering_speed,
-          crew: starship.crew,
-          passengers: starship.passengers,
-          cargo_capacity: starship.cargo_capacity,
-          consumables: starship.consumables,
-          hyperdrive_rating: starship.hyperdrive_rating,
-          MGLT: starship.MGLT,
-          starship_class: starship.starship_class,
-          pilots: starship.pilots,
-          films: starship.films,
-          created: starship.created,
-          edited: starship.edited,
-          url: starship.url,
-        };
+      const starshipNames = starships.map((starship) => starship.name);
+      const existingStarships = await starshipModel.find({
+        name: { $in: starshipNames },
+      });
 
-        const existingStarship = await starshipModel.findOne({
-          name: starship.name,
-        });
+      const newStarships = starships.filter(
+        (starship) =>
+          !existingStarships.some((existing) => existing.name === starship.name)
+      );
 
-        if (!existingStarship) {
-          const newStarship = new starshipModel(starshipData);
-          await newStarship.save();
-          console.log(`Synchronized: ${starship.name}`);
-        } else {
-          console.log(`${starship.name} already exists in the database`);
-        }
+      if (newStarships.length > 0) {
+        await starshipModel.insertMany(newStarships);
+        console.log(`Synchronized ${newStarships.length} starships`);
+      } else {
+        console.log(`No new starships to synchronize`);
       }
 
       if (data.next) {

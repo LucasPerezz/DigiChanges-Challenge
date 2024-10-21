@@ -1,6 +1,23 @@
 import { Request, Response } from "express";
 import { filmModel } from "./film.model";
 
+interface Film {
+  title: string;
+  episode_id: number;
+  opening_crawl: string;
+  director: string;
+  producer: string;
+  release_date: string;
+  characters: string[];
+  planets: string[];
+  starships: string[];
+  vehicles: string[];
+  species: string[];
+  created: string;
+  edited: string;
+  url: string;
+}
+
 export const syncFilmsDataToDB = async () => {
   try {
     let page = 1;
@@ -14,35 +31,39 @@ export const syncFilmsDataToDB = async () => {
 
     while (response.ok) {
       const data = await response.json();
-      const films = data.results;
+      const films: Film[] = data.results.map((film: any) => ({
+        title: film.title,
+        episode_id: film.episode_id,
+        opening_crawl: film.opening_crawl,
+        director: film.director,
+        producer: film.producer,
+        release_date: film.release_date,
+        characters: film.characters,
+        planets: film.planets,
+        starships: film.starships,
+        vehicles: film.vehicles,
+        species: film.species,
+        created: film.created,
+        edited: film.edited,
+        url: film.url,
+      }));
 
-      for (const film of films) {
-        const filmData = {
-          title: film.title,
-          episode_id: film.episode_id,
-          opening_crawl: film.opening_crawl,
-          director: film.director,
-          producer: film.producer,
-          release_date: film.release_date,
-          characters: film.characters,
-          planets: film.planets,
-          starships: film.starships,
-          vehicles: film.vehicles,
-          species: film.species,
-          created: film.created,
-          edited: film.edited,
-          url: film.url,
-        };
+      const titles = films.map((film) => film.title);
 
-        const existingFilm = await filmModel.findOne({ title: film.title });
+      const existingFilms = await filmModel.find({ title: { $in: titles } });
 
-        if (!existingFilm) {
-          const newFilm = new filmModel(filmData);
-          await newFilm.save();
-          console.log(`Synchronized: ${film.title}`);
-        } else {
-          console.log(`Film ${film.title} already exists in the database`);
-        }
+      const newFilms = films.filter(
+        (film) =>
+          !existingFilms.some(
+            (existingFilm) => existingFilm.title === film.title
+          )
+      );
+
+      if (newFilms.length > 0) {
+        await filmModel.insertMany(newFilms);
+        console.log(`Synchronized ${newFilms.length} films`);
+      } else {
+        console.log(`No new films to synchronize`);
       }
 
       if (data.next) {

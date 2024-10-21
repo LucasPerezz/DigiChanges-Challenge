@@ -1,7 +1,26 @@
 import { Request, Response } from "express";
 import peopleModel from "./people.model";
 
-export const syncPeopleDataToDB = async () => {
+interface Person {
+  name: string;
+  height: string;
+  mass: string;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
+  gender: string;
+  homeworld: string;
+  films: string[];
+  species: string[];
+  vehicles: string[];
+  starships: string[];
+  created: string;
+  edited: string;
+  url: string;
+}
+
+export const syncPeopleDataToDB = async (): Promise<void> => {
   try {
     let page = 1;
     let response = await fetch(
@@ -14,37 +33,41 @@ export const syncPeopleDataToDB = async () => {
 
     while (response.ok) {
       const data = await response.json();
-      const people = data.results;
+      const people: Person[] = data.results.map((person: Person) => ({
+        name: person.name,
+        height: person.height,
+        mass: person.mass,
+        hair_color: person.hair_color,
+        skin_color: person.skin_color,
+        eye_color: person.eye_color,
+        birth_year: person.birth_year,
+        gender: person.gender,
+        homeworld: person.homeworld,
+        films: person.films,
+        species: person.species,
+        vehicles: person.vehicles,
+        starships: person.starships,
+        created: person.created,
+        edited: person.edited,
+        url: person.url,
+      }));
 
-      for (const person of people) {
-        const personData = {
-          name: person.name,
-          height: person.height,
-          mass: person.mass,
-          hair_color: person.hair_color,
-          skin_color: person.skin_color,
-          eye_color: person.eye_color,
-          birth_year: person.birth_year,
-          gender: person.gender,
-          homeworld: person.homeworld,
-          films: person.films,
-          species: person.species,
-          vehicles: person.vehicles,
-          starships: person.starships,
-          created: person.created,
-          edited: person.edited,
-          url: person.url,
-        };
+      const names = people.map((person) => person.name);
 
-        const existingPerson = await peopleModel.findOne({ name: person.name });
+      const existingPeople = await peopleModel.find({ name: { $in: names } });
 
-        if (!existingPerson) {
-          const newPerson = new peopleModel(personData);
-          await newPerson.save();
-          console.log(`Synchronized: ${person.name}`);
-        } else {
-          console.log(`${person.name} already exists in the database`);
-        }
+      const newPeople = people.filter(
+        (person) =>
+          !existingPeople.some(
+            (existingPerson) => existingPerson.name === person.name
+          )
+      );
+
+      if (newPeople.length > 0) {
+        await peopleModel.insertMany(newPeople);
+        console.log(`Synchronized ${newPeople.length} people`);
+      } else {
+        console.log(`No new people to synchronize`);
       }
 
       if (data.next) {

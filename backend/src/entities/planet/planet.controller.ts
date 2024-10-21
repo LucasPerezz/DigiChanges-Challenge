@@ -1,7 +1,24 @@
 import { Request, Response } from "express";
 import planetModel from "./planet.model";
 
-export const syncPlanetsDataToDB = async () => {
+interface Planet {
+  name: string;
+  rotation_period: string;
+  orbital_period: string;
+  diameter: string;
+  climate: string;
+  gravity: string;
+  terrain: string;
+  surface_water: string;
+  population: string;
+  residents: string[];
+  films: string[];
+  created: string;
+  edited: string;
+  url: string;
+}
+
+export const syncPlanetsDataToDB = async (): Promise<void> => {
   try {
     let page = 1;
     let response = await fetch(
@@ -14,35 +31,41 @@ export const syncPlanetsDataToDB = async () => {
 
     while (response.ok) {
       const data = await response.json();
-      const planets = data.results;
+      const planets: Planet[] = data.results.map((planet: Planet) => ({
+        name: planet.name,
+        rotation_period: planet.rotation_period,
+        orbital_period: planet.orbital_period,
+        diameter: planet.diameter,
+        climate: planet.climate,
+        gravity: planet.gravity,
+        terrain: planet.terrain,
+        surface_water: planet.surface_water,
+        population: planet.population,
+        residents: planet.residents,
+        films: planet.films,
+        created: planet.created,
+        edited: planet.edited,
+        url: planet.url,
+      }));
 
-      for (const planet of planets) {
-        const planetData = {
-          name: planet.name,
-          rotation_period: planet.rotation_period,
-          orbital_period: planet.orbital_period,
-          diameter: planet.diameter,
-          climate: planet.climate,
-          gravity: planet.gravity,
-          terrain: planet.terrain,
-          surface_water: planet.surface_water,
-          population: planet.population,
-          residents: planet.residents,
-          films: planet.films,
-          created: planet.created,
-          edited: planet.edited,
-          url: planet.url,
-        };
+      const planetNames = planets.map((planet) => planet.name);
 
-        const existingPlanet = await planetModel.findOne({ name: planet.name });
+      const existingPlanets = await planetModel.find({
+        name: { $in: planetNames },
+      });
 
-        if (!existingPlanet) {
-          const newPlanet = new planetModel(planetData);
-          await newPlanet.save();
-          console.log(`Synchronized: ${planet.name}`);
-        } else {
-          console.log(`${planet.name} already exists in the database`);
-        }
+      const newPlanets = planets.filter(
+        (planet) =>
+          !existingPlanets.some(
+            (existingPlanet) => existingPlanet.name === planet.name
+          )
+      );
+
+      if (newPlanets.length > 0) {
+        await planetModel.insertMany(newPlanets);
+        console.log(`Synchronized ${newPlanets.length} planets`);
+      } else {
+        console.log(`No new planets to synchronize`);
       }
 
       if (data.next) {

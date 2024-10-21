@@ -56,6 +56,6 @@ Feedback frontend:
 Feedback backend:
 [X] No se implementaron filtros ni paginación
 [X] Se dejo la carpeta DIST en el repositorio. (Esto es mala practica, no esn necesario subir el build a github)
-[] Se manejan ciclos iterativos para guardar información en la DB cuando podríamos hacer un insertMany.
+[X] Se manejan ciclos iterativos para guardar información en la DB cuando podríamos hacer un insertMany.
 [] Lógica de la aplicación se concentra en el controlador, cuando no es su funcionalidad, debería haber casos de uso / servicios. (estudiar arquitectura en capas)
 [X] No usar NPM como gestor de paquetes, usar PNPM.
