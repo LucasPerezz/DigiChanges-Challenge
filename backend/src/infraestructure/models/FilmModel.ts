@@ -1,9 +1,7 @@
 import mongoose, { Document, PaginateModel, Schema } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
-const filmCollection = "Films";
-
-interface Data extends Document {
+interface Film extends Document {
   title: string;
   episode_id: number;
   opening_crawl: string;
@@ -13,13 +11,14 @@ interface Data extends Document {
   characters: string[];
   planets: string[];
   species: string[];
+  starships: string[],
   vehicles: string[];
   created: string;
   edited: string;
   url: string;
 }
 
-const filmSchema: Schema = new Schema({
+const FilmSchema: Schema = new Schema({
   title: { type: String },
   episode_id: { type: Number },
   opening_crawl: { type: String },
@@ -36,9 +35,8 @@ const filmSchema: Schema = new Schema({
   url: { type: String },
 });
 
-filmSchema.plugin(mongoosePaginate);
+FilmSchema.plugin(mongoosePaginate);
 
-export const filmModel = mongoose.model<Data, PaginateModel<Data>>(
-  filmCollection,
-  filmSchema
-);
+const FilmModel = mongoose.model<Film, PaginateModel<Film>>("Film", FilmSchema);
+
+export { FilmModel, Film };

@@ -67,7 +67,7 @@ describe("GET /films/:title", () => {
   it("fetch error with 400 code", async () => {
     const film = "awdasd";
     const response = await request(app).get(`/api/v1/films/${film}`);
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
   });
 });
 

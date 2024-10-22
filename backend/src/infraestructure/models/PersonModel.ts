@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document, PaginateModel } from "mongoose";
+import mongoose, { Document, PaginateModel, Schema } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
-interface Data extends Document {
+interface Person extends Document {
   name: string;
   height: string;
   mass: string;
@@ -20,9 +20,7 @@ interface Data extends Document {
   url: string;
 }
 
-const peopleCollection = "People";
-
-const peopleSchema: Schema = new Schema({
+const PersonSchema: Schema = new Schema({
   name: { type: String },
   height: { type: String },
   mass: { type: String },
@@ -41,11 +39,8 @@ const peopleSchema: Schema = new Schema({
   url: { type: String },
 });
 
-peopleSchema.plugin(mongoosePaginate);
+PersonSchema.plugin(mongoosePaginate);
 
-const peopleModel = mongoose.model<Data, PaginateModel<Data>>(
-  peopleCollection,
-  peopleSchema
-);
+const PersonModel = mongoose.model<Person, PaginateModel<Person>>("Person", PersonSchema);
 
-export default peopleModel;
+export { PersonModel, Person };

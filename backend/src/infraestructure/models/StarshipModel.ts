@@ -1,9 +1,9 @@
-import mongoose, { PaginateModel, Schema } from "mongoose";
+import mongoose, { Document, PaginateModel, Schema } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
-interface Data {
+interface Starship extends Document {
   name: string;
-  model: string;
+  starship_model: string; 
   manufacturer: string;
   cost_in_credits: string;
   length: string;
@@ -18,13 +18,11 @@ interface Data {
   created: string;
   edited: string;
   url: string;
-}
+};
 
-const starshipCollection = "Starship";
-
-const starshipSchema: Schema = new Schema({
+const StarshipSchema: Schema = new Schema({
   name: { type: String },
-  model: { type: String },
+  starship_model: { type: String }, 
   manufacturer: { type: String },
   cost_in_credits: { type: String },
   length: { type: String },
@@ -41,11 +39,11 @@ const starshipSchema: Schema = new Schema({
   url: { type: String },
 });
 
-starshipSchema.plugin(mongoosePaginate);
+StarshipSchema.plugin(mongoosePaginate);
 
-const starshipModel = mongoose.model<Data, PaginateModel<Data>>(
-  starshipCollection,
-  starshipSchema
+const StarshipModel = mongoose.model<Starship, PaginateModel<Starship>>(
+  "Starship",
+  StarshipSchema
 );
 
-export default starshipModel;
+export { StarshipModel, Starship };

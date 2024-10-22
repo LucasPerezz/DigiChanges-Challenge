@@ -1,7 +1,7 @@
-import mongoose, { Schema, Document, PaginateModel } from "mongoose";
+import mongoose, { Document, PaginateModel, Schema } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
-interface Data extends Document {
+interface Planet extends Document {
   name: string;
   rotation_period: string;
   orbital_period: string;
@@ -18,9 +18,7 @@ interface Data extends Document {
   url: string;
 }
 
-const planetCollection = "Planet";
-
-const planetSchema: Schema = new Schema({
+const PlanetSchema: Schema = new Schema({
   name: { type: String },
   rotation_period: { type: String },
   orbital_period: { type: String },
@@ -37,11 +35,11 @@ const planetSchema: Schema = new Schema({
   url: { type: String },
 });
 
-planetSchema.plugin(mongoosePaginate);
+PlanetSchema.plugin(mongoosePaginate);
 
-const planetModel = mongoose.model<Data, PaginateModel<Data>>(
-  planetCollection,
-  planetSchema
+const PlanetModel = mongoose.model<Planet, PaginateModel<Planet>>(
+  "Planet",
+  PlanetSchema
 );
 
-export default planetModel;
+export { PlanetModel, Planet };
