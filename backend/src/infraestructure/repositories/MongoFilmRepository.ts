@@ -1,11 +1,12 @@
 import { Film } from "../../domain/entities/Film";
 import { IFilmRepository } from "../../domain/interfaces/IFilmRepository";
+import { IFilterTitle } from "../../domain/interfaces/IFilterTitle";
 import { FilmModel } from "../models/FilmModel";
 import { PaginateResult } from "mongoose";
 
 export class MongoFilmRepository implements IFilmRepository {
   async getFilms(
-    filters: any,
+    filters: IFilterTitle,
     options: { limit: number; offset: number }
   ): Promise<Film[]> {
     const result: PaginateResult<Film> = await FilmModel.paginate(

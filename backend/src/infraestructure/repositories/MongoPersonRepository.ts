@@ -2,9 +2,10 @@ import { PaginateResult } from "mongoose";
 import { Person } from "../../domain/entities/Person";
 import { IPersonRepository } from "../../domain/interfaces/IPersonRepository";
 import { PersonModel } from "../models/PersonModel";
+import { IFilterName } from "../../domain/interfaces/IFilterName";
 
 export class MongoPersonRepository implements IPersonRepository {
-    async getPeople(filters: any, options: {limit: number; offset: number}): Promise<Person[]> {
+    async getPeople(filters: IFilterName, options: {limit: number; offset: number}): Promise<Person[]> {
         const result: PaginateResult<Person> = await PersonModel.paginate(filters, options);
         return result.docs;
     }

@@ -2,10 +2,11 @@ import { PaginateResult } from "mongoose";
 import { Starship } from "../../domain/entities/Starship";
 import { IStarshipRepository } from "../../domain/interfaces/IStarshipRepository";
 import { StarshipModel } from "../models/StarshipModel";
+import { IFilterName } from "../../domain/interfaces/IFilterName";
 
 export class MongoStarshipRepository implements IStarshipRepository {
   async getStarships(
-    filters: any,
+    filters: IFilterName,
     options: { limit: number; offset: number }
   ): Promise<Starship[]> {
     const result: PaginateResult<Starship> = await StarshipModel.paginate(

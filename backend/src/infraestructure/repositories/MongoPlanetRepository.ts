@@ -2,10 +2,11 @@ import { PaginateResult } from "mongoose";
 import { Planet } from "../../domain/entities/Planet";
 import { IPlanetRepository } from "../../domain/interfaces/IPlanetRepository";
 import { PlanetModel } from "../models/PlanetModel";
+import { IFilterName } from "../../domain/interfaces/IFilterName";
 
 export class MongoPlanetRepository implements IPlanetRepository {
   async getPlanets(
-    filters: any,
+    filters: IFilterName,
     options: { limit: number; offset: number }
   ): Promise<Planet[]> {
     const result: PaginateResult<Planet> = await PlanetModel.paginate(

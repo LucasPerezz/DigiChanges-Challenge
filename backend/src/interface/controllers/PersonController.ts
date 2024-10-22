@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { GetPeople } from "../../use-cases/people/GetPeople";
 import { GetPersonByName } from "../../use-cases/people/GetPersonByName";
+import { IFilterName } from "../../domain/interfaces/IFilterName";
 
 export class PersonController {
   private readonly getPeopleUseCase: GetPeople;
@@ -23,9 +24,9 @@ export class PersonController {
         limit: Number(limit) || 10,
       };
 
-      const filters: any = {};
+      const filters: IFilterName = {};
 
-      if (name) {
+      if (typeof name === 'string') {
         filters.name = { $regex: name, $options: "i" };
       }
 

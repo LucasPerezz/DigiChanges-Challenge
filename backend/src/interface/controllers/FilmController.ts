@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { GetFilms } from "../../use-cases/films/GetFilms";
 import { GetFilmByTitle } from "../../use-cases/films/GetFilmByTitle";
+import { IFilterTitle } from "../../domain/interfaces/IFilterTitle";
+
 
 export class FilmController {
   private readonly getFilmsUseCase: GetFilms;
@@ -23,8 +25,9 @@ export class FilmController {
         limit: Number(limit) || 10,
       };
 
-      const filters: any = {};
-      if (title) {
+      const filters: IFilterTitle = {};
+      
+      if (typeof title === 'string') {
         filters.title = { $regex: title, $options: "i" };
       }
 

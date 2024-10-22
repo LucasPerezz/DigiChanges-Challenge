@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { GetStarships } from "../../use-cases/starships/GetStarships";
 import { GetStarshipByName } from "../../use-cases/starships/GetStarshipByName";
+import { IFilterName } from "../../domain/interfaces/IFilterName";
 
 export class StarshipController {
     private readonly getStarshipsUseCase: GetStarships;
@@ -20,9 +21,9 @@ export class StarshipController {
                 limit: Number(limit) || 10
             };
 
-            const filters: any = {};
+            const filters: IFilterName = {};
 
-            if(name) {
+            if (typeof name === 'string') {
                 filters.name = { $regex: name, $options: "i" };
             }
 
@@ -40,10 +41,10 @@ export class StarshipController {
 
             const starship = await this.getStarshipByNameUseCase.execute(name);
 
-            if(starship) {
+            if (starship) {
                 res.status(200).json(starship);
             } else {
-                res.status(404).json({message: `Starship with name "${name}" not found`});
+                res.status(404).json({ message: `Starship with name "${name}" not found` });
             }
 
         } catch (error) {
