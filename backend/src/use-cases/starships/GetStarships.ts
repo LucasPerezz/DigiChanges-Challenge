@@ -3,7 +3,7 @@ import { Starship } from "../../domain/entities/Starship";
 import { IFilterName } from "../../domain/interfaces/IFilterName";
 
 export class GetStarships {
-  constructor(private starshipRepository: IStarshipRepository) { }
+  constructor(private starshipRepository: IStarshipRepository) {}
 
   async execute(
     filters: IFilterName,

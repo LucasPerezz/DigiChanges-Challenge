@@ -26,7 +26,7 @@ export class PersonController {
 
       const filters: IFilterName = {};
 
-      if (typeof name === 'string') {
+      if (typeof name === "string") {
         filters.name = { $regex: name, $options: "i" };
       }
 
@@ -51,7 +51,7 @@ export class PersonController {
           .json({ message: `Person with name "${name}" not found` });
       }
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error", error });
+      res.status(500).json({ message: "Internal Server Error", error });
     }
   }
 }

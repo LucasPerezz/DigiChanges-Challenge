@@ -9,7 +9,6 @@ interface StarshipPageProps {
 }
 
 export default async function page({ params: { name } }: StarshipPageProps) {
-  console.log(name);
   const starship = await starshipData.getStarshipByName(name);
   return <StarshipDetail starship={starship} />;
 }

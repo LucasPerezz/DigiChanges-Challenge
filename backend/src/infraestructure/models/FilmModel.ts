@@ -11,7 +11,7 @@ interface Film extends Document {
   characters: string[];
   planets: string[];
   species: string[];
-  starships: string[],
+  starships: string[];
   vehicles: string[];
   created: string;
   edited: string;

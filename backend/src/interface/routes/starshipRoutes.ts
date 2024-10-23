@@ -7,19 +7,19 @@ import { MongoStarshipRepository } from "../../infraestructure/repositories/Mong
 const starshipRepository = new MongoStarshipRepository();
 const getStarshipsUseCase = new GetStarships(starshipRepository);
 const getStarshipByNameUseCase = new GetStarshipByName(starshipRepository);
-const starshipController = new StarshipController(getStarshipsUseCase, getStarshipByNameUseCase);
+const starshipController = new StarshipController(
+  getStarshipsUseCase,
+  getStarshipByNameUseCase
+);
 
 const starshipRoutes = Router();
 
-starshipRoutes.get('/', (req, res) => starshipController.getStarships(req, res));
+starshipRoutes.get("/", (req, res) =>
+  starshipController.getStarships(req, res)
+);
 
-starshipRoutes.get('/:name', (req, res) => starshipController.getStarshipByName(req, res));
-
+starshipRoutes.get("/:name", (req, res) =>
+  starshipController.getStarshipByName(req, res)
+);
 
 export default starshipRoutes;
-
-
-
-
-
-

@@ -26,7 +26,6 @@ app.use("/api/v1/films", filmRoutes);
 app.use("/api/v1/starships", starshipRoutes);
 app.use("/api/v1/planets", planetRoutes);
 
-
 // Servidor
 const server = app
   .listen(PORT, () => {

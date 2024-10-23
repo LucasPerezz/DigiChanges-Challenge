@@ -3,7 +3,6 @@ import { GetFilms } from "../../use-cases/films/GetFilms";
 import { GetFilmByTitle } from "../../use-cases/films/GetFilmByTitle";
 import { IFilterTitle } from "../../domain/interfaces/IFilterTitle";
 
-
 export class FilmController {
   private readonly getFilmsUseCase: GetFilms;
   private readonly getFilmByTitleUseCase: GetFilmByTitle;
@@ -26,8 +25,8 @@ export class FilmController {
       };
 
       const filters: IFilterTitle = {};
-      
-      if (typeof title === 'string') {
+
+      if (typeof title === "string") {
         filters.title = { $regex: title, $options: "i" };
       }
 

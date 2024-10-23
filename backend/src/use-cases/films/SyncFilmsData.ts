@@ -33,7 +33,7 @@ export class SyncFilmsData {
           species: film.species,
           created: film.created,
           edited: film.edited,
-          url: film.url
+          url: film.url,
         }));
 
         await this.filmRepository.syncFilmsData(films);

@@ -10,6 +10,5 @@ interface pageProps {
 
 export default async function page({ params: { name } }: pageProps) {
   const person = await peopleData.getPeopleById(name);
-  console.log(person);
   return <PeopleDetail person={person} />;
 }

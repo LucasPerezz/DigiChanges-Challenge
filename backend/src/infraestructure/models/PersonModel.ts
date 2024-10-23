@@ -41,6 +41,9 @@ const PersonSchema: Schema = new Schema({
 
 PersonSchema.plugin(mongoosePaginate);
 
-const PersonModel = mongoose.model<Person, PaginateModel<Person>>("Person", PersonSchema);
+const PersonModel = mongoose.model<Person, PaginateModel<Person>>(
+  "Person",
+  PersonSchema
+);
 
 export { PersonModel, Person };

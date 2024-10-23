@@ -1,3 +1,3 @@
 export interface IFilterName {
-    name?: { $regex: string; $options: string };
+  name?: { $regex: string; $options: string };
 }

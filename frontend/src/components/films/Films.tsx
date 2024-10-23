@@ -3,7 +3,7 @@
 import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
 import { usePagination } from "@/hooks/usePagination";
-import filmData from "@/services/Film"; 
+import filmData from "@/services/Film";
 import { Film } from "@/types/types";
 import React, { useCallback } from "react";
 
@@ -38,8 +38,8 @@ export default function FilmsPage() {
             type="text"
             placeholder="Search film..."
             className="input input-bordered w-full max-w-xs"
-            value={searchTerm}  
-            onChange={(e) => onSearchChange(e.target.value)} 
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
@@ -61,8 +61,8 @@ export default function FilmsPage() {
 
       <Pagination
         currentPage={currentPage}
-        onPageChange={onPageChange}  
-        hasMore={hasMore} 
+        onPageChange={onPageChange}
+        hasMore={hasMore}
         loading={loading}
       />
     </section>

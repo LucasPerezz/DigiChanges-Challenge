@@ -51,7 +51,12 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="flex items-center gap-2">
-          <Image src={'https://i.ibb.co/dBrKSDr/pngegg.png'} height={50} width={50} alt="logo starwiki" />
+          <Image
+            src={"https://i.ibb.co/dBrKSDr/pngegg.png"}
+            height={50}
+            width={50}
+            alt="logo starwiki"
+          />
           <a className="btn btn-ghost text-xl lg:text-3xl">StarWiki</a>
         </div>
       </div>

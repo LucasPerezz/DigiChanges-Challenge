@@ -31,7 +31,9 @@ export default function Starships() {
     <section className="flex flex-col justify-between min-h-screen items-center gap-10 container mx-auto w-full">
       <div className="flex flex-col gap-10 w-full">
         <div className="w-full flex flex-col lg:flex-row gap-4 container items-center lg:items-start justify-between">
-          <h2 className="text-3xl font-bold underline underline-offset-2">Starships</h2>
+          <h2 className="text-3xl font-bold underline underline-offset-2">
+            Starships
+          </h2>
           <input
             type="text"
             placeholder="Search starship..."

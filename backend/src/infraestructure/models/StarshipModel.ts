@@ -3,7 +3,7 @@ import mongoosePaginate from "mongoose-paginate-v2";
 
 interface Starship extends Document {
   name: string;
-  starship_model: string; 
+  starship_model: string;
   manufacturer: string;
   cost_in_credits: string;
   length: string;
@@ -18,11 +18,11 @@ interface Starship extends Document {
   created: string;
   edited: string;
   url: string;
-};
+}
 
 const StarshipSchema: Schema = new Schema({
   name: { type: String },
-  starship_model: { type: String }, 
+  starship_model: { type: String },
   manufacturer: { type: String },
   cost_in_credits: { type: String },
   length: { type: String },

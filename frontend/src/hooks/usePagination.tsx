@@ -1,7 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 
 export function usePagination<T>(
-  fetchFunction: (pageSize: number, currentPage: number, search: string) => Promise<T[]>,
+  fetchFunction: (
+    pageSize: number,
+    currentPage: number,
+    search: string
+  ) => Promise<T[]>,
   pageSize: number
 ) {
   const [data, setData] = useState<T[]>([]);
@@ -15,16 +19,16 @@ export function usePagination<T>(
     const result = await fetchFunction(pageSize, currentPage, searchTerm);
     setData(result);
     setLoading(false);
-    setHasMore(result.length === pageSize); 
+    setHasMore(result.length === pageSize);
   }, [fetchFunction, pageSize, currentPage, searchTerm]);
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]); 
+  }, [fetchData]);
 
   const onSearchChange = (search: string) => {
     setSearchTerm(search);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const onPageChange = (page: number) => {

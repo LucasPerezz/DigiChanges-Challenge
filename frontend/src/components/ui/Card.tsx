@@ -20,7 +20,10 @@ export default function Card({ title, description }: CardProps) {
         <p>{description}</p>
         <div className="card-actions justify-center">
           <Link href={`${pathName}/${title ?? ""}`}>
-            <button className="btn btn-base-100 flex items-center"><GrFormView size={40}/><span>More Information</span></button>
+            <button className="btn btn-base-100 flex items-center">
+              <GrFormView size={40} />
+              <span>More Information</span>
+            </button>
           </Link>
         </div>
       </div>
