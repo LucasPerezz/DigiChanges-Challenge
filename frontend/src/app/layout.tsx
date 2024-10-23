@@ -5,6 +5,8 @@ import { NextFont } from "next/dist/compiled/@next/font";
 
 export const metadata: Metadata = {
   title: "StarWiki",
+  description: "I am your father",
+  keywords: ['starwars', 'starwiki']
 };
 
 const roboto: NextFont = Roboto({

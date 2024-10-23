@@ -14,7 +14,7 @@ export default function Card({ title, description }: CardProps) {
   const pathName = usePathname();
 
   return (
-    <div className="card bg-base-200 w-96 shadow-xl">
+    <div className="card bg-base-200 w-96 shadow-xl hover:scale-105 hover:transition-all">
       <div className="card-body">
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>

@@ -22,11 +22,11 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, onPageChange, hasM
 
   return (
     <div className="flex justify-center gap-4 mb-12">
-      <button onClick={handlePrev} disabled={currentPage === 1 || loading}>
+      <button onClick={handlePrev} disabled={currentPage === 1 || loading} className="hover:text-white hover:transition-all">
         Previous
       </button>
       <span>{`Page ${currentPage}`}</span>
-      <button onClick={handleNext} disabled={!hasMore || loading}>
+      <button onClick={handleNext} disabled={!hasMore || loading} className="hover:text-white hover:transition-all">
         Next
       </button>
     </div>
