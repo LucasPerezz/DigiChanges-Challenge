@@ -2,37 +2,42 @@
 
 import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
+import filmData from "@/services/Film"; 
 import { Film } from "@/types/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-interface FilmsProps {
-  films: Film[];
-}
-
-export default function Films({ films }: FilmsProps) {
+export default function FilmsPage() {
+  const [films, setFilms] = useState<Film[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchFilm, setSearchFilm] = useState<string>("");
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
+  const pageSize = 10;
 
-  const filteredFilms = films.filter((film: Film) =>
-    film.title.toLowerCase().includes(searchFilm.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchFilms = async () => {
+      setLoading(true);
+      const data = await filmData.getFilms(pageSize, currentPage, searchFilm);
 
-  const pageSize = 9;
-  const totalPages = Math.ceil(filteredFilms.length / pageSize);
+      if (data.length < pageSize) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+
+      setFilms(data);
+      setLoading(false);
+    };
+
+    fetchFilms();
+  }, [currentPage, searchFilm]);
 
   const onPageChange = (page: number) => {
-    if (currentPage >= 1 && page <= totalPages) setCurrentPage(page);
+    setCurrentPage(page);
   };
-
-  const paginate = (items: Film[], pageNumber: number, pageSize: number) => {
-    const starIndex = (pageNumber - 1) * pageSize;
-    return items.slice(starIndex, starIndex + pageSize);
-  };
-
-  const paginatedFilms = paginate(filteredFilms, currentPage, pageSize);
 
   return (
-    <section className="flex flex-col justify-around min-h-screen items-center gap-10 container mx-auto w-full">
+    <section className="flex flex-col justify-between min-h-screen items-center gap-10 container mx-auto w-full">
       <div className="flex flex-col gap-10 w-full">
         <div className="w-full flex flex-col lg:flex-row gap-4 container items-center lg:items-start justify-between">
           <h2 className="text-3xl font-bold underline underline-offset-2">
@@ -50,31 +55,27 @@ export default function Films({ films }: FilmsProps) {
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
-          {!filteredFilms ? (
+          {loading ? (
             <span className="loading loading-dots loading-lg"></span>
+          ) : films.length === 0 ? (
+            <p>No Results...</p>
           ) : (
-            paginatedFilms.map((film: Film) => {
-              return (
-                <Card
-                  title={film.title}
-                  description={film.director}
-                  key={film.title}
-                />
-              );
-            })
+            films.map((film: Film) => (
+              <Card
+                title={film.title}
+                description={film.director}
+                key={film.title}
+              />
+            ))
           )}
         </div>
       </div>
 
-      {paginatedFilms && (
-        <Pagination
-          currentPage={currentPage}
-          pageSize={totalPages}
-          onPageChange={onPageChange}
-          items={filteredFilms.length}
-        />
-      )}
+      <Pagination
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+        hasMore={hasMore}
+      />
     </section>
   );
 }
-

@@ -2,39 +2,42 @@
 
 import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
+import peopleData from "@/services/people";
 import { People } from "@/types/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-interface PeopleProps {
-  people: People[];
-}
-
-export default function PeoplePage({ people }: PeopleProps) {
+export default function PeoplePage() {
+  const [people, setPeople] = useState<People[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchPerson, setSearchPerson] = useState<string>("");
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false); 
+  const pageSize = 10;
 
-  const filteredPeople = people.filter((person: People) =>
-    person.name.toLowerCase().includes(searchPerson.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchPeople = async () => {
+      setLoading(true); 
+      const data = await peopleData.getPeople(pageSize, currentPage, searchPerson);
+      
+      if (data.length < pageSize) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+      
+      setPeople(data);
+      setLoading(false); 
+    };
 
-  const pageSize = 9; 
-  const totalPages = Math.ceil(filteredPeople.length / pageSize);
+    fetchPeople();
+  }, [currentPage, searchPerson]);
 
   const onPageChange = (page: number) => {
-    if (currentPage >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    setCurrentPage(page);
   };
-
-  const paginate = (items: People[], pageNumber: number, pageSize: number) => {
-    const starIndex = (pageNumber - 1) * pageSize;
-    return items.slice(starIndex, starIndex + pageSize);
-  };
-
-  const paginatedPeople = paginate(filteredPeople, currentPage, pageSize);
 
   return (
-    <section className="flex flex-col justify-around min-h-screen items-center gap-10 container mx-auto w-full">
+    <section className="flex flex-col justify-between min-h-screen items-center gap-10 container mx-auto w-full">
       <div className="flex flex-col gap-10 w-full">
         <div className="w-full flex flex-col lg:flex-row gap-4 container items-center lg:items-start justify-between">
           <h2 className="text-3xl font-bold underline underline-offset-2">
@@ -52,32 +55,28 @@ export default function PeoplePage({ people }: PeopleProps) {
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
-          {!paginatedPeople ? (
+          {loading ? (
             <span className="loading loading-dots loading-lg"></span>
+          ) : people.length === 0 ? (
+            <p>No Results...</p>
           ) : (
-            paginatedPeople.map((person: People) => {
-              return (
-                <Card
-                  title={person.name}
-                  description={person.gender}
-                  key={person.name}
-                />
-              );
-            })
+            people.map((person: People) => (
+              <Card
+                title={person.name}
+                description={person.gender}
+                key={person.name}
+              />
+            ))
           )}
         </div>
       </div>
 
-      {paginatedPeople && (
-        <Pagination
-          currentPage={currentPage}
-          pageSize={totalPages}
-          onPageChange={onPageChange}
-          items={filteredPeople.length}
-        />
-      )}
+      <Pagination
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+        hasMore={hasMore}
+      />
     </section>
   );
 }
-
 

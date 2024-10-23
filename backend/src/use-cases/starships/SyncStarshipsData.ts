@@ -43,14 +43,13 @@ export class SyncStarshipsData {
         await this.starshipRepository.syncStarshipsData(starships);
 
         if (data.next) {
-            page++;
-            response = await fetch(`https://swapi.dev/api/starships/?page=${page}&format=json`);
+          page++;
+          response = await fetch(
+            `https://swapi.dev/api/starships/?page=${page}&format=json`
+          );
         } else {
-            break;
+          break;
         }
-
-
-
       }
     } catch (error) {
       console.error("Error synchronizing data:", error);

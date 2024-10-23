@@ -2,39 +2,42 @@
 
 import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
+import planetData from "@/services/Planet"; // Servicio que obtiene los planetas desde la API
 import { Planet } from "@/types/types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-interface PlanetsProps {
-  planets: Planet[];
-}
-
-export default function Planets({ planets }: PlanetsProps) {
+export default function PlanetsPage() {
+  const [planets, setPlanets] = useState<Planet[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchPlanet, setSearchPlanet] = useState<string>("");
-
-  const filteredPlanets = planets.filter((planet: Planet) =>
-    planet.name.toLowerCase().includes(searchPlanet.toLowerCase())
-  );
-
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const pageSize = 9;
-  const totalPages = Math.ceil(filteredPlanets.length / pageSize);
+
+  useEffect(() => {
+    const fetchPlanets = async () => {
+      setLoading(true);
+      const data = await planetData.getPlanets(pageSize, currentPage, searchPlanet);
+
+      if (data.length < pageSize) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+
+      setPlanets(data);
+      setLoading(false);
+    };
+
+    fetchPlanets();
+  }, [currentPage, searchPlanet]);
 
   const onPageChange = (page: number) => {
-    if (currentPage >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    setCurrentPage(page);
   };
-
-  const paginate = (items: Planet[], pageNumber: number, pageSize: number) => {
-    const starIndex = (pageNumber - 1) * pageSize;
-    return items.slice(starIndex, starIndex + pageSize);
-  };
-
-  const paginatedPlanets = paginate(filteredPlanets, currentPage, pageSize);
 
   return (
-    <section className="flex flex-col justify-around min-h-screen items-center gap-10 container mx-auto w-full">
+    <section className="flex flex-col justify-between min-h-screen items-center gap-10 container mx-auto w-full">
       <div className="flex flex-col gap-10 w-full">
         <div className="w-full flex flex-col lg:flex-row gap-4 container items-center lg:items-start justify-between">
           <h2 className="text-3xl font-bold underline underline-offset-2">
@@ -52,30 +55,27 @@ export default function Planets({ planets }: PlanetsProps) {
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
-          {!paginatedPlanets ? (
+          {loading ? (
             <span className="loading loading-dots loading-lg"></span>
+          ) : planets.length === 0 ? (
+            <p>No Results...</p>
           ) : (
-            paginatedPlanets.map((planet: Planet) => {
-              return (
-                <Card
-                  title={planet.name}
-                  description={planet.terrain}
-                  key={planet.name}
-                />
-              );
-            })
+            planets.map((planet: Planet) => (
+              <Card
+                title={planet.name}
+                description={planet.terrain}
+                key={planet.name}
+              />
+            ))
           )}
         </div>
       </div>
 
-      {paginatedPlanets && (
-        <Pagination
-          currentPage={currentPage}
-          pageSize={totalPages}
-          onPageChange={onPageChange}
-          items={filteredPlanets.length}
-        />
-      )}
+      <Pagination
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+        hasMore={hasMore}
+      />
     </section>
   );
 }

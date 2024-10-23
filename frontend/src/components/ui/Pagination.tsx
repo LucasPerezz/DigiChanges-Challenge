@@ -1,22 +1,16 @@
 import React from "react";
 
 interface PaginationProps {
-  items: number;
   currentPage: number;
-  pageSize: number;
   onPageChange: (page: number) => void;
+  hasMore: boolean;
 }
 
 export default function Pagination({
-  items,
   currentPage,
-  pageSize,
   onPageChange,
+  hasMore,
 }: PaginationProps) {
-  const pagesCount = Math.ceil(items / pageSize);
-
-  if (pagesCount === 1) return null;
-
   return (
     <div className="join">
       <button
@@ -24,6 +18,7 @@ export default function Pagination({
         onClick={() => {
           if (currentPage > 1) onPageChange(currentPage - 1);
         }}
+        disabled={currentPage === 1} // Deshabilitar si estamos en la primera página
       >
         «
       </button>
@@ -31,8 +26,9 @@ export default function Pagination({
       <button
         className="join-item btn"
         onClick={() => {
-          if (currentPage <= pageSize + 1) onPageChange(currentPage + 1);
+          if (hasMore) onPageChange(currentPage + 1); // Solo permitir avanzar si hay más elementos
         }}
+        disabled={!hasMore} // Deshabilitar si no hay más elementos
       >
         »
       </button>
