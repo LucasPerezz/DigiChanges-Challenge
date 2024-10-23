@@ -2,39 +2,30 @@
 
 import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
+import { usePagination } from "@/hooks/usePagination";
 import filmData from "@/services/Film"; 
 import { Film } from "@/types/types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 
 export default function FilmsPage() {
-  const [films, setFilms] = useState<Film[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchFilm, setSearchFilm] = useState<string>("");
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
   const pageSize = 10;
 
-  useEffect(() => {
-    const fetchFilms = async () => {
-      setLoading(true);
-      const data = await filmData.getFilms(pageSize, currentPage, searchFilm);
+  const fetchFilms = useCallback(
+    async (pageSize: number, currentPage: number, search: string) => {
+      return await filmData.getFilms(pageSize, currentPage, search);
+    },
+    []
+  );
 
-      if (data.length < pageSize) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
-
-      setFilms(data);
-      setLoading(false);
-    };
-
-    fetchFilms();
-  }, [currentPage, searchFilm]);
-
-  const onPageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const {
+    data: films,
+    currentPage,
+    searchTerm,
+    hasMore,
+    loading,
+    onSearchChange,
+    onPageChange,
+  } = usePagination<Film>(fetchFilms, pageSize);
 
   return (
     <section className="flex flex-col justify-between min-h-screen items-center gap-10 container mx-auto w-full">
@@ -47,11 +38,8 @@ export default function FilmsPage() {
             type="text"
             placeholder="Search film..."
             className="input input-bordered w-full max-w-xs"
-            value={searchFilm}
-            onChange={(e) => {
-              setSearchFilm(e.target.value);
-              setCurrentPage(1);
-            }}
+            value={searchTerm}  
+            onChange={(e) => onSearchChange(e.target.value)} 
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
@@ -73,8 +61,9 @@ export default function FilmsPage() {
 
       <Pagination
         currentPage={currentPage}
-        onPageChange={onPageChange}
-        hasMore={hasMore}
+        onPageChange={onPageChange}  
+        hasMore={hasMore} 
+        loading={loading}
       />
     </section>
   );

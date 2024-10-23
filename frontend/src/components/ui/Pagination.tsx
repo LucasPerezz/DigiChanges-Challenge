@@ -4,34 +4,33 @@ interface PaginationProps {
   currentPage: number;
   onPageChange: (page: number) => void;
   hasMore: boolean;
+  loading: boolean;
 }
 
-export default function Pagination({
-  currentPage,
-  onPageChange,
-  hasMore,
-}: PaginationProps) {
+const Pagination: React.FC<PaginationProps> = ({ currentPage, onPageChange, hasMore, loading }) => {
+  const handleNext = () => {
+    if (!loading && hasMore) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1 && !loading) {
+      onPageChange(currentPage - 1);
+    }
+  };
+
   return (
-    <div className="join">
-      <button
-        className="join-item btn"
-        onClick={() => {
-          if (currentPage > 1) onPageChange(currentPage - 1);
-        }}
-        disabled={currentPage === 1} // Deshabilitar si estamos en la primera página
-      >
-        «
+    <div className="flex justify-center gap-4 mb-12">
+      <button onClick={handlePrev} disabled={currentPage === 1 || loading}>
+        Previous
       </button>
-      <button className="join-item btn">{currentPage}</button>
-      <button
-        className="join-item btn"
-        onClick={() => {
-          if (hasMore) onPageChange(currentPage + 1); // Solo permitir avanzar si hay más elementos
-        }}
-        disabled={!hasMore} // Deshabilitar si no hay más elementos
-      >
-        »
+      <span>{`Page ${currentPage}`}</span>
+      <button onClick={handleNext} disabled={!hasMore || loading}>
+        Next
       </button>
     </div>
   );
-}
+};
+
+export default Pagination;

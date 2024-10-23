@@ -4,37 +4,28 @@ import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
 import peopleData from "@/services/people";
 import { People } from "@/types/types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
+import { usePagination } from "@/hooks/usePagination";
 
 export default function PeoplePage() {
-  const [people, setPeople] = useState<People[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchPerson, setSearchPerson] = useState<string>("");
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false); 
   const pageSize = 10;
 
-  useEffect(() => {
-    const fetchPeople = async () => {
-      setLoading(true); 
-      const data = await peopleData.getPeople(pageSize, currentPage, searchPerson);
-      
-      if (data.length < pageSize) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
-      
-      setPeople(data);
-      setLoading(false); 
-    };
+  const fetchPeople = useCallback(
+    async (pageSize: number, currentPage: number, search: string) => {
+      return await peopleData.getPeople(pageSize, currentPage, search);
+    },
+    []
+  );
 
-    fetchPeople();
-  }, [currentPage, searchPerson]);
-
-  const onPageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const {
+    data: people,
+    currentPage,
+    searchTerm,
+    hasMore,
+    loading,
+    onSearchChange,
+    onPageChange,
+  } = usePagination<People>(fetchPeople, pageSize);
 
   return (
     <section className="flex flex-col justify-between min-h-screen items-center gap-10 container mx-auto w-full">
@@ -47,11 +38,8 @@ export default function PeoplePage() {
             type="text"
             placeholder="Search person..."
             className="input input-bordered w-full max-w-xs"
-            value={searchPerson}
-            onChange={(e) => {
-              setSearchPerson(e.target.value);
-              setCurrentPage(1);
-            }}
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
@@ -75,8 +63,8 @@ export default function PeoplePage() {
         currentPage={currentPage}
         onPageChange={onPageChange}
         hasMore={hasMore}
+        loading={loading}
       />
     </section>
   );
 }
-

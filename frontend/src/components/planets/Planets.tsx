@@ -2,39 +2,30 @@
 
 import Card from "@/components/ui/Card";
 import Pagination from "@/components/ui/Pagination";
-import planetData from "@/services/Planet"; // Servicio que obtiene los planetas desde la API
+import { usePagination } from "@/hooks/usePagination";
+import planetData from "@/services/Planet";
 import { Planet } from "@/types/types";
-import React, { useEffect, useState } from "react";
+import React, { useCallback } from "react";
 
 export default function PlanetsPage() {
-  const [planets, setPlanets] = useState<Planet[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchPlanet, setSearchPlanet] = useState<string>("");
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
   const pageSize = 9;
 
-  useEffect(() => {
-    const fetchPlanets = async () => {
-      setLoading(true);
-      const data = await planetData.getPlanets(pageSize, currentPage, searchPlanet);
+  const fetchPlanets = useCallback(
+    async (pageSize: number, currentPage: number, search: string) => {
+      return await planetData.getPlanets(pageSize, currentPage, search);
+    },
+    []
+  );
 
-      if (data.length < pageSize) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
-
-      setPlanets(data);
-      setLoading(false);
-    };
-
-    fetchPlanets();
-  }, [currentPage, searchPlanet]);
-
-  const onPageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  const {
+    data: planets,
+    currentPage,
+    searchTerm,
+    hasMore,
+    loading,
+    onSearchChange,
+    onPageChange,
+  } = usePagination<Planet>(fetchPlanets, pageSize);
 
   return (
     <section className="flex flex-col justify-between min-h-screen items-center gap-10 container mx-auto w-full">
@@ -47,11 +38,8 @@ export default function PlanetsPage() {
             type="text"
             placeholder="Search planet..."
             className="input input-bordered w-full max-w-xs"
-            value={searchPlanet}
-            onChange={(e) => {
-              setSearchPlanet(e.target.value);
-              setCurrentPage(1);
-            }}
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
           />
         </div>
         <div className="container flex flex-row flex-wrap mx-auto gap-5 justify-center items-center min-w-full min-h-[400px]">
@@ -75,9 +63,8 @@ export default function PlanetsPage() {
         currentPage={currentPage}
         onPageChange={onPageChange}
         hasMore={hasMore}
+        loading={loading}
       />
     </section>
   );
 }
-
-

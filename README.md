@@ -54,7 +54,7 @@ Feedback frontend:
 [] Se duplica el codigo innecesariamente, por ejemplo, en la paginación se repite la misma lógica en todos los page.
 [X] Se dejaron varios logs a lo largo de la app.
 [X] La app, a veces, crashea cuando queres ver un detalle de una entidad.
-[Back [X], front[]] La paginación esta hecha solo de el front-end, es decir, se hace un get all y de ahí se pagina. Lo que debería hacerse es hacer un limit y un offset para pedir solo la cantidad de items necesarios por pagina.
+[Back [X], front[X]] La paginación esta hecha solo de el front-end, es decir, se hace un get all y de ahí se pagina. Lo que debería hacerse es hacer un limit y un offset para pedir solo la cantidad de items necesarios por pagina.
 
 
 Feedback backend:
