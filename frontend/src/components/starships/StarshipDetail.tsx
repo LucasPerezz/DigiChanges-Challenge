@@ -6,7 +6,6 @@ interface StarshipDetailProps {
 }
 
 export default function StarshipDetail({ starship }: StarshipDetailProps) {
-  console.log(starship);
   return (
     <div className="flex flex-col justify-center items-start w-full container p-10 gap-10 mx-auto">
       <h2 className="text-2xl font-bold">{starship?.name}</h2>
